@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tailwind',
     'home',
+    'projects_manager',
     "theme"
 ]
 
