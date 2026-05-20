@@ -1,0 +1,18 @@
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+
+select = ["E", "F", "I", "UP", "B", "DJ", "Q", "COM812"]
+
+ignore = ["E501"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+multiline-quotes = "double"
+docstring-quotes = "double"
+
+[tool.ruff.lint.isort]
+
+known-first-party = ["NaomiOuattara-Portfolio"]
