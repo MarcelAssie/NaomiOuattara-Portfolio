@@ -37,8 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home'
+    'tailwind',
+    'home',
+    "theme"
 ]
+
+TAILWIND_APP_NAME = "theme"
+
+
+if DEBUG:
+    INSTALLED_APPS += ["django_browser_reload"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
