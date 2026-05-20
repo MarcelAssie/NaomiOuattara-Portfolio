@@ -10,23 +10,48 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+import dj_database_url
+import dotenv
+
+dotenv.load_dotenv()
+
+NPM_BIN_PATH = os.getenv("NPM_BIN_PATH", None)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def env_bool(name, default=False):
+    return os.getenv(name, str(default)).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def env_list(name, default=""):
+    value = os.getenv(name, default)
+    if not value:
+        return []
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xu57vlcdzr8$tacwr-i1vwnig0b6nts3u)d)r^1^+a1vv+=51j'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_bool("DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS")
 
+CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
+
+# URLs configuration
+ROOT_URLCONF = "naomiouattara_portfolio.urls"
+WSGI_APPLICATION = "naomiouattara_portfolio.wsgi.application"
+ASGI_APPLICATION = "naomiouattara_portfolio.asgi.application"
+DEFAULT_AUTO_FIELD = "naomiouattara_portfolio.db.models.BigAutoField"
+# AUTH_USER_MODEL = "authentication.User"
 
 # Application definition
 
@@ -49,22 +74,26 @@ if DEBUG:
     INSTALLED_APPS += ["django_browser_reload"]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'naomiouattara_portfolio.urls'
+if DEBUG:
+    MIDDLEWARE += [
+        "django_browser_reload.middleware.BrowserReloadMiddleware",
+    ]
+
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        "DIRS": [BASE_DIR.joinpath("templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,14 +109,48 @@ WSGI_APPLICATION = 'naomiouattara_portfolio.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# ==============================================================================
+# PRODUCTION DATABASE
+# ==============================================================================
+
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+
+# ==============================================================================
+# LOCAL DATABASE
+# ==============================================================================
+
+DB_NAME_LOCAL = os.getenv("DB_NAME_LOCAL", "").strip()
+DB_USER_LOCAL = os.getenv("DB_USER_LOCAL", "").strip()
+DB_PASSWORD_LOCAL = os.getenv("DB_PASSWORD_LOCAL", "").strip()
+DB_HOST_LOCAL = os.getenv("DB_HOST_LOCAL", "").strip()
+DB_PORT_LOCAL = os.getenv("DB_PORT_LOCAL", "").strip()
+
+if DATABASE_URL:
+    DATABASES = {"default": dj_database_url.config(default=DATABASE_URL, conn_max_age=600)}
+elif all([DB_NAME_LOCAL, DB_USER_LOCAL, DB_PASSWORD_LOCAL, DB_HOST_LOCAL, DB_PORT_LOCAL]):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": DB_NAME_LOCAL,
+            "USER": DB_USER_LOCAL,
+            "PASSWORD": DB_PASSWORD_LOCAL,
+            "HOST": DB_HOST_LOCAL,
+            "PORT": DB_PORT_LOCAL,
+            "CONN_MAX_AGE": 60,
+            "OPTIONS": {
+                "connect_timeout": 10,
+            },
+        },
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
+    }
 
 
 # Password validation
@@ -108,25 +171,122 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Authentication URLs
+# LOGIN_URL = "login"
+# LOGOUT_REDIRECT_URL = "welcome"
+
+# ==============================================================================
+# CACHE & SESSIONS
+# ==============================================================================
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    },
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+
+# ==============================================================================
+# SECURITY CONFIGURATION
+# ==============================================================================
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+
+# ==============================================================================
+# CONFIGURATIONS SPÉCIFIQUES ENVIRONNEMENT (PRODUCTION)
+# ==============================================================================
+
+if not DEBUG:
+    # Production - Sécurité renforcée
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+    SESSION_SAVE_EVERY_REQUEST = True
+    SESSION_COOKIE_AGE = 1800
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = "fr-fr"
+TIME_ZONE = "UTC"
 USE_I18N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# ==============================================================================
+# MEDIA AND STATIC FILES CONFIGURATION
+# ==============================================================================
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        if not DEBUG
+        else "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+# ==============================================================================
+# R2 CLOUDFLARE STORAGE CONFIGURATION
+# ==============================================================================
+
+AWS_ACCOUNT_ID = os.getenv("AWS_ACCOUNT_ID", "").strip()
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", "").strip()
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", "").strip()
+AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME", "").strip()
+AWS_PUBLIC_DOMAIN = os.getenv("AWS_PUBLIC_DOMAIN", "").strip()
+AWS_MEDIA_PUBLIC = env_bool("AWS_MEDIA_PUBLIC", False)
+USE_AWS = all([AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME])
+
+if USE_AWS:
+    INSTALLED_APPS.append("storages")
+
+    AWS_S3_ENDPOINT_URL = f"https://{AWS_ACCOUNT_ID}.r2.cloudflarestorage.com"
+    AWS_S3_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+    AWS_S3_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+    AWS_STORAGE_BUCKET_NAME = AWS_BUCKET_NAME
+
+    AWS_S3_REGION_NAME = "auto"
+    AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+    AWS_S3_ADDRESSING_STYLE = "virtual"
+
+    AWS_DEFAULT_ACL = None
+    AWS_S3_FILE_OVERWRITE = False
+
+    AWS_QUERYSTRING_AUTH = not AWS_MEDIA_PUBLIC
+
+    if AWS_PUBLIC_DOMAIN:
+        AWS_S3_CUSTOM_DOMAIN = AWS_PUBLIC_DOMAIN
+        MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+    else:
+        MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_BUCKET_NAME}/"
+
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    }
+
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
