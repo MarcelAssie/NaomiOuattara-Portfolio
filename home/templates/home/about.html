@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 1. En-tête Géant -->
+<section class="min-h-[80vh] bg-[#FAFAFA] text-black relative flex items-center justify-center pt-32 overflow-hidden">
+    <div class="text-center z-10 px-4 relative w-full max-w-6xl">
+        <h1 class="font-display text-[2.5rem] sm:text-[5rem] md:text-[6rem] lg:text-[7.5rem] uppercase leading-[0.9] tracking-tight">
+            <span class="block md:text-left ml-0 md:ml-12">À la frontière</span>
+            <span class="block text-center italic">de l'art,</span>
+            <span class="block md:text-right mr-0 md:mr-12">du design &</span>
+            <span class="block text-center">de la technologie</span>
+        </h1>
+    </div>
+
+
+</section>
+
+<section class="py-24 bg-[#FAFAFA] text-black px-6">
+    <div class="max-w-4xl mx-auto text-center">
+        <div class="w-[1px] h-24 bg-gray-300 mx-auto mb-16"></div>
+
+        <h2 class="font-sans text-3xl md:text-5xl font-light mb-4">
+            Je conçois et façonne des
+        </h2>
+        <h2 class="font-display text-4xl md:text-6xl font-bold mb-10">
+            expériences visuelles.
+        </h2>
+
+        <p class="font-sans text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
+            Actuellement en Master 2 de Design, je suis passionnée par l'intersection entre le graphisme traditionnel et les nouvelles technologies. Mon approche mêle direction artistique exigeante et sens du détail.
+        </p>
+    </div>
+</section>
+
+<!-- 3. NOUVEAU : Section Image pleine largeur -->
+<section class="w-full h-[60vh] bg-gray-200">
+    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2560&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Studio Vibe">
+</section>
+{% endblock content %}

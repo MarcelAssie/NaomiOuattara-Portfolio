@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- 1. HERO : Vidéo de fond -->
+<section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0 bg-black">
+        <video autoplay loop muted playsinline class="object-cover w-full h-full opacity-60" poster="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop">
+            <source src="{% static 'assets/videos/showreel.mp4' %}" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/40"></div>
+    </div>
+
+    <div class="relative z-10 text-center text-white px-4 max-w-5xl mx-auto flex flex-col items-center">
+        <h1 class="font-display text-4xl sm:text-6xl md:text-[5rem] mb-2 sm:mb-4">
+            Naomi Ouattara
+        </h1>
+        <p class="text-xl sm:text-3xl md:text-5xl font-sans font-light leading-snug">
+            est une <span class="font-medium">designer graphique spécialisée</span> dans<br class="hidden md:block">
+            <span class="font-medium">la création visuelle & interactive.</span>
+        </p>
+    </div>
+
+    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center text-white">
+        <div class="w-16 h-16 rounded-full border border-white/40 flex flex-col items-center justify-center relative">
+            <div class="w-[1px] h-8 bg-white absolute top-0 -mt-4"></div>
+            <span class="text-[9px] font-bold tracking-widest uppercase mt-4">Scroll</span>
+        </div>
+    </div>
+</section>
+
+<!-- 2. NOUVEAU : Expertises (Inspiré Capture 3) -->
+<!-- SECTION EXPERTISES -->
+<section class="py-32 bg-[#FAFAFA] text-black text-center px-4">
+    <h2 class="font-display text-4xl md:text-6xl lg:text-[5rem] leading-[1.1] uppercase">
+        Direction Artistique <span class="font-sans font-light text-gray-400">/</span><br>
+        <span class="italic">Identité Visuelle</span> <span class="font-sans font-light text-gray-400">/</span><br>
+        Web Design <span class="font-sans font-light text-gray-400">/</span><br>
+        Édition <span class="font-sans font-light text-gray-400">/</span><br>
+        <span class="italic">Expériences Digitales</span> <span class="font-sans font-light text-gray-400">/</span>
+    </h2>
+
+    <div class="mt-20 flex justify-center items-center">
+        <!-- Remplacement de "Plus sur le studio" par "En savoir plus sur moi" -->
+        <a href="{% url 'about' %}" class="group flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] uppercase">
+            <span class="border-b border-black pb-1">En savoir plus sur moi</span>
+            <!-- ... le reste du bouton ... -->
+        </a>
+    </div>
+</section>
+<!-- 3. SELECTION DE PROJETS -->
+<section class="bg-[#FAFAFA] text-black pb-32 px-6 md:px-12 relative z-20">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-end border-b border-gray-300 pb-4 mb-16">
+            <h2 class="font-display text-3xl md:text-4xl italic">Sélection de projets</h2>
+            <a href="{% url 'projects' %}" class="font-sans text-[10px] tracking-widest uppercase font-semibold flex items-center hover:text-gray-500">
+                Découvrir la sélection <span class="ml-2 w-8 h-[1px] bg-current inline-block"></span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+            <!-- Projet 1 -->
+            <article class="group cursor-pointer">
+                <div class="w-full aspect-[4/5] bg-gray-200 overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Projet">
+                </div>
+                <h3 class="font-display text-3xl md:text-4xl mb-2 group-hover:italic transition-all">Musée National</h3>
+                <p class="font-sans text-[11px] text-gray-500 uppercase tracking-widest">Installation Interactive · 2024</p>
+            </article>
+
+            <!-- Projet 2 (Décalé) -->
+            <article class="group cursor-pointer md:mt-48">
+                <div class="w-full aspect-[4/3] bg-gray-200 overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Projet">
+                </div>
+                <h3 class="font-display text-3xl md:text-4xl mb-2 group-hover:italic transition-all">Campagne Alpha</h3>
+                <p class="font-sans text-[11px] text-gray-500 uppercase tracking-widest">Web Design · 2023</p>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock content %}
