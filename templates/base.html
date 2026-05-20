@@ -1,61 +1,14 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naomi Ouattara | Portfolio</title>
+    <title>Naomi Ouattara | Graphic & Digital Designer</title>
     <link rel="icon" type="image/png" href="{% static 'assets/images/favicon.png' %}"/>
-
-    <!-- Importation des polices Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Italiana&display=swap" rel="stylesheet">
 
     {% tailwind_css %}
 
-    <!-- Configuration CSS personnalisée pour Tailwind -->
-    <style>
-        .font-display {
-            font-family: 'Italiana', serif;
-        }
-        .font-sans {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Style pour adoucir le défilement */
-        html { scroll-behavior: smooth; }
-    </style>
+
 </head>
-<body class="bg-[#FAFAFA] text-black font-sans antialiased selection:bg-black selection:text-white">
-
-    <!-- Navbar fixe en haut -->
-<!-- Navbar fixe en haut -->
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 md:px-12 bg-transparent text-white mix-blend-difference">
-
-        <!-- Logo textuel stylisé -->
-        <a href="/" class="flex flex-col uppercase tracking-widest group">
-            <span class="font-display text-2xl lowercase italic leading-none group-hover:opacity-70 transition-opacity">naomiouattara</span>
-            <span class="text-[9px] font-sans ml-4 mt-1 tracking-[0.3em]">Portfolio</span>
-        </a>
-
-        <!-- Menu Desktop -->
-        <nav class="hidden md:flex space-x-8 text-[10px] font-semibold tracking-[0.15em] uppercase">
-            <a href="/" class="hover:opacity-50 transition-opacity">Projets.</a>
-            <a href="{% url 'about' %}" class="hover:opacity-50 transition-opacity">À propos.</a>
-            <a href="#" class="hover:opacity-50 transition-opacity">Contact.</a>
-        </nav>
-
-        <!-- Menu Hamburger (Mobile) -->
-        <button class="md:hidden flex flex-col justify-center items-center w-10 h-10 z-50">
-            <span class="block w-6 h-[1px] bg-white mb-1.5"></span>
-            <span class="block w-6 h-[1px] bg-white"></span>
-        </button>
-    </header>
-    <!-- Contenu principal -->
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
-
-</body>
 </html>
