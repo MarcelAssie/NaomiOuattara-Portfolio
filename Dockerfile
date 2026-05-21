@@ -56,7 +56,7 @@ USER appuser
 EXPOSE 8000
 
 # Gunicorn Command
-CMD gunicorn cmcimediaplatform.wsgi:application \
+CMD gunicorn naomiouattara_portfolio.wsgi:application \
     --bind 0.0.0.0:${PORT:-8000} \
     --workers 3 \
     --timeout 120 \
