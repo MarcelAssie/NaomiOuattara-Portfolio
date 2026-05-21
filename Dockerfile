@@ -48,10 +48,6 @@ COPY --from=tailwind-builder /app/theme/static/css/dist/styles.css /app/theme/st
 # Collectstatic with temporary variables to avoid polluting the final image
 RUN SECRET_KEY="dummy-build-key" DEBUG=False python manage.py collectstatic --noinput
 
-# Create a non-root user to run the app
-RUN adduser --disabled-password --no-create-home appuser \
-    && chown -R appuser:appuser /app
-USER appuser
 
 EXPOSE 8000
 
