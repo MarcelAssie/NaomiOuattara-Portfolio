@@ -127,15 +127,22 @@ class ProjectMediaForm(forms.ModelForm):
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
+    def value_from_datadict(self, data, files, name):
+        if hasattr(files, "getlist"):
+            return files.getlist(name)
+        return super().value_from_datadict(data, files, name)
+
 
 class MultipleFileField(forms.FileField):
     def clean(self, data, initial=None):
         single_file_clean = super().clean
 
         if isinstance(data, (list, tuple)):
-            return [single_file_clean(d, initial) for d in data]
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
 
-        return single_file_clean(data, initial)
+        return result
 
 
 class MultipleProjectMediaForm(forms.Form):

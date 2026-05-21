@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="px-6 md:px-10 pt-32 pb-16 overflow-hidden">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+
+        <div class="lg:col-span-8">
+            <p class="reveal text-xs uppercase tracking-[0.18em] font-bold mb-6">
+                {{ project.category.name }} · {{ project.year }}
+            </p>
+
+            <h1 class="reveal font-display text-[15vw] md:text-[10vw] lg:text-[7vw] font-extrabold leading-[0.78] tracking-[-0.08em] uppercase">
+                {{ project.title }}
+            </h1>
+        </div>
+
+        <div class="lg:col-span-4 reveal flex lg:items-end">
+            <div class="bg-lime border-2 border-ink rounded-[2rem] p-6 shadow-[7px_7px_0_#111] rotate-[-2deg]">
+                <p class="text-sm leading-relaxed">
+                    {{ project.description }}
+                </p>
+
+                {% if project.client %}
+                <p class="mt-6 text-xs uppercase tracking-[0.16em] font-bold">
+                    Client / contexte : {{ project.client }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    {% if project.cover_image %}
+    <div class="reveal border-2 border-ink rounded-[3rem] overflow-hidden shadow-[10px_10px_0_#111] mb-20">
+        <img src="{{ project.cover_image.url }}"
+             alt="{{ project.title }}"
+             class="w-full h-[55vh] object-cover">
+    </div>
+    {% endif %}
+
+</section>
+
+<section class="px-6 md:px-10 pb-20">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+        <div class="lg:col-span-4">
+            <div class="sticky top-28 border-2 border-ink rounded-[2rem] bg-paper p-8 shadow-[6px_6px_0_#111]">
+                <p class="text-xs uppercase tracking-[0.18em] font-bold mb-8">
+                    Informations
+                </p>
+
+                <div class="space-y-6 text-sm">
+                    <div>
+                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Projet</span>
+                        <strong>{{ project.title }}</strong>
+                    </div>
+
+                    <div>
+                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Catégorie</span>
+                        <strong>{{ project.category.name }}</strong>
+                    </div>
+
+                    <div>
+                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Année</span>
+                        <strong>{{ project.year }}</strong>
+                    </div>
+
+                    {% if project.client %}
+                    <div>
+                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Client</span>
+                        <strong>{{ project.client }}</strong>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8">
+            <p class="reveal font-display text-3xl md:text-5xl font-extrabold leading-[0.95] tracking-[-0.05em] mb-12">
+                {{ project.details|linebreaksbr }}
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+{% if media_list %}
+<section class="px-6 md:px-10 pb-24">
+
+    <div class="mb-10">
+        <p class="text-xs uppercase tracking-[0.18em] font-bold mb-4">
+            Galerie
+        </p>
+
+        <h2 class="font-display text-4xl md:text-6xl font-extrabold tracking-[-0.06em]">
+            Aperçu du projet
+        </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        {% for media in media_list %}
+        <button type="button"
+                class="media-card group bg-paper border border-ink/20 rounded-[1.5rem] overflow-hidden hover:border-ink transition-all duration-300"
+                data-src="{{ media.file.url }}"
+                data-type="{{ media.media_type }}"
+                data-caption="{{ media.caption|default:project.title }}">
+
+            <div class="aspect-[4/3] bg-white overflow-hidden">
+                {% if media.media_type == "image" %}
+                    <img src="{{ media.file.url }}"
+                         alt="{{ media.caption }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                {% else %}
+                    <video src="{{ media.file.url }}"
+                           muted
+                           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></video>
+                {% endif %}
+            </div>
+
+            <div class="p-4 flex items-center justify-between">
+                <span class="text-[10px] uppercase tracking-[0.16em] font-bold text-muted">
+                    {{ media.media_type }}
+                </span>
+
+                <span class="text-sm font-bold">
+                    Voir
+                </span>
+            </div>
+
+        </button>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<div id="mediaModal" class="fixed inset-0 z-[999] hidden bg-ink/90 p-6 md:p-10">
+    <button id="closeModal"
+            class="absolute top-6 right-6 bg-paper text-ink rounded-full px-5 py-3 text-xs uppercase tracking-[0.16em] font-bold">
+        Fermer
+    </button>
+
+    <div class="h-full flex flex-col items-center justify-center gap-6">
+        <div id="modalContent" class="max-w-5xl max-h-[78vh] w-full flex items-center justify-center"></div>
+        <p id="modalCaption" class="text-paper text-sm uppercase tracking-[0.16em] font-bold"></p>
+    </div>
+</div>
+{% endif %}
+
+{% if related_projects %}
+<section class="px-6 md:px-10 pb-28">
+
+    <p class="text-xs uppercase tracking-[0.18em] font-bold mb-6">
+        Même catégorie
+    </p>
+
+    <h2 class="font-display text-5xl md:text-7xl font-extrabold tracking-[-0.07em] mb-10">
+        À découvrir aussi
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for related in related_projects %}
+        <a href="{% url 'project_detail' related.slug %}"
+           class="group border-2 border-ink rounded-[2rem] overflow-hidden bg-paper shadow-[6px_6px_0_#111] hover:-translate-y-1 transition-all">
+
+            <div class="aspect-[4/3] overflow-hidden bg-ink/10">
+                <img src="{{ related.thumbnail.url }}"
+                     alt="{{ related.title }}"
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+
+            <div class="p-6">
+                <p class="text-xs uppercase tracking-[0.16em] font-bold text-muted mb-3">
+                    {{ related.category.name }} · {{ related.year }}
+                </p>
+
+                <h3 class="font-display text-3xl font-extrabold tracking-[-0.05em]">
+                    {{ related.title }}
+                </h3>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+</section>
+{% endif %}
+
+<script>
+    const modal = document.getElementById("mediaModal");
+    const modalContent = document.getElementById("modalContent");
+    const modalCaption = document.getElementById("modalCaption");
+    const closeModal = document.getElementById("closeModal");
+
+    document.querySelectorAll(".media-card").forEach(card => {
+        card.addEventListener("click", () => {
+            const src = card.dataset.src;
+            const type = card.dataset.type;
+            const caption = card.dataset.caption;
+
+            modalContent.innerHTML = "";
+
+            if (type === "image") {
+                modalContent.innerHTML = `
+                    <img src="${src}" class="max-h-[78vh] max-w-full object-contain rounded-[2rem] border-2 border-paper">
+                `;
+            } else {
+                modalContent.innerHTML = `
+                    <video src="${src}" controls autoplay class="max-h-[78vh] max-w-full rounded-[2rem] border-2 border-paper"></video>
+                `;
+            }
+
+            modalCaption.textContent = caption;
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        });
+    });
+
+    closeModal?.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        modalContent.innerHTML = "";
+        document.body.style.overflow = "";
+    });
+
+    modal?.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.classList.add("hidden");
+            modalContent.innerHTML = "";
+            document.body.style.overflow = "";
+        }
+    });
+</script>
+
+{% endblock %}
