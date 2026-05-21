@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="px-6 md:px-10 pt-32 pb-24 max-w-6xl mx-auto">
+
+    <div class="mb-16">
+        <p class="text-xs uppercase tracking-[0.18em] font-bold mb-4">
+            Dashboard · Nouveau projet
+        </p>
+
+        <h1 class="font-display text-6xl md:text-8xl font-extrabold tracking-[-0.08em] leading-none">
+            Créer un projet
+        </h1>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data"
+          class="border-2 border-ink rounded-[3rem] bg-paper p-6 md:p-12 shadow-[10px_10px_0_#111] space-y-10">
+
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div>
+                <label class="block text-xs uppercase font-bold mb-3">Titre du projet</label>
+                {{ form.title }}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase font-bold mb-3">Catégorie</label>
+                {{ form.category }}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase font-bold mb-3">Année</label>
+                {{ form.year }}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase font-bold mb-3">Client / contexte</label>
+                {{ form.client }}
+            </div>
+
+        </div>
+
+        <div>
+            <label class="block text-xs uppercase font-bold mb-3">Description courte</label>
+            {{ form.description }}
+            <p class="text-xs text-muted mt-2">
+                Cette description apparaîtra sur la page liste des projets.
+            </p>
+        </div>
+
+        <div>
+            <label class="block text-xs uppercase font-bold mb-3">Description détaillée</label>
+            {{ form.details }}
+            <p class="text-xs text-muted mt-2">
+                Cette description apparaîtra sur la page complète du projet.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div class="border-2 border-dashed border-ink rounded-[2rem] p-6 bg-lime">
+                <label class="block text-xs uppercase font-bold mb-3">Image miniature</label>
+                {{ form.thumbnail }}
+                <p class="text-xs mt-3">
+                    Image utilisée dans la grille des projets.
+                </p>
+            </div>
+
+            <div class="border-2 border-dashed border-ink rounded-[2rem] p-6 bg-sky">
+                <label class="block text-xs uppercase font-bold mb-3">Image de couverture</label>
+                {{ form.cover_image }}
+                <p class="text-xs mt-3">
+                    Grande image utilisée en haut de page projet.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+
+            <div>
+                <label class="block text-xs uppercase font-bold mb-3">Ordre d’affichage</label>
+                {{ form.order }}
+            </div>
+
+            <label class="flex items-center gap-4 bg-coral border-2 border-ink rounded-[2rem] p-6 font-bold">
+                {{ form.is_featured }}
+                <span>Mettre ce projet en avant</span>
+            </label>
+
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 pt-6">
+
+            <button type="submit"
+                    class="bg-ink text-paper border-2 border-ink rounded-full px-8 py-4 text-xs uppercase tracking-[0.16em] font-bold hover:bg-coral hover:text-ink transition-colors">
+                Enregistrer le projet
+            </button>
+
+            <a href="{% url 'dashboard' %}"
+               class="bg-paper border-2 border-ink rounded-full px-8 py-4 text-xs uppercase tracking-[0.16em] font-bold text-center">
+                Retour
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}
