@@ -2,26 +2,27 @@
 
 {% block content %}
 
-<section class="min-h-screen px-6 md:px-10 pt-32 pb-16 relative overflow-hidden">
+<section class="min-h-screen px-6 md:px-10 pt-20 pb-16 relative overflow-hidden">
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end min-h-[78vh]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-start min-h-[72vh]">
 
-        <div class="lg:col-span-8">
+        <div class="lg:col-span-8 relative z-10">
             <p class="reveal text-xs md:text-sm uppercase tracking-[0.18em] font-semibold mb-6">
                 Portfolio créatif · Design graphique · Direction artistique
             </p>
 
-            <h1 class="reveal font-display font-extrabold uppercase leading-[0.78] tracking-[-0.08em] text-[22vw] md:text-[15vw] lg:text-[11vw]">
+            <h1 class="reveal font-display font-extrabold uppercase leading-[0.78] tracking-[-0.08em] text-[22vw] md:text-[15vw] lg:text-[9vw] xl:text-[8vw] max-w-[7ch]">
                 Naomi<br>
                 <span class="text-coral">Ouat</span><span class="text-violet">tara</span>
             </h1>
         </div>
 
-        <div class="lg:col-span-4 reveal">
-            <div class="bg-lime border-2 border-ink rounded-[2rem] p-6 md:p-8 rotate-[-3deg] shadow-[8px_8px_0_#111]">
+        <div class="lg:col-span-4 lg:col-start-9 lg:self-end lg:mb-10 reveal relative z-20">
+            <div class="bg-lime border-2 border-ink rounded-4xl p-6 md:p-8 -rotate-3 shadow-[8px_8px_0_#111] max-w-md lg:ml-auto">
                 <p class="font-display text-2xl md:text-3xl font-bold leading-none mb-5">
-                    Visual designer en devenir, obsédée par les formes, les couleurs et les idées qui restent.
+                    Je suis étudiante en design graphique et numérique — passionnée par le graphisme, je me forme à ce métier depuis 4 ans.
                 </p>
+                <p class="text-sm mb-4">J'utilise la suite Adobe, Figma et l'IA dans mes projets. Je conçois des flyers, affiches, packagings, supports digitaux, éditions ainsi que des maquettes de sites et d'applications.</p>
                 <a href="{% url 'projects' %}" class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.16em] font-bold border-b-2 border-ink pb-1">
                     Voir les projets <span>→</span>
                 </a>
@@ -30,14 +31,14 @@
 
     </div>
 
-    <div class="absolute top-32 right-8 hidden lg:block w-28 h-28 bg-sky border-2 border-ink rounded-full"></div>
-    <div class="absolute bottom-28 left-[45%] hidden lg:block w-40 h-40 bg-coral border-2 border-ink blob mix-blend-multiply"></div>
-    <div class="absolute top-[46%] right-[22%] hidden lg:block text-[9rem] font-display font-extrabold text-violet rotate-12">*</div>
+    <div id="shape-sky" class="absolute top-32 right-8 hidden lg:block w-28 h-28 bg-sky border-2 border-ink rounded-full pointer-events-auto cursor-pointer" aria-hidden="true" title="Découvrir les projets"></div>
+    <div id="blob-coral" class="absolute bottom-28 left-[45%] hidden lg:block w-40 h-40 bg-coral border-2 border-ink blob mix-blend-multiply pointer-events-auto cursor-pointer" aria-hidden="true" title="Découvrir les projets"></div>
+    <div id="star-violet" class="absolute top-[46%] right-[22%] hidden lg:block text-[9rem] font-display font-extrabold text-violet rotate-12 pointer-events-auto cursor-pointer" aria-hidden="true" title="Découvrir les projets">*</div>
 
 </section>
 
 <section class="border-y-2 border-ink bg-ink text-paper overflow-hidden py-5">
-    <div class="flex gap-10 whitespace-nowrap uppercase font-display font-extrabold text-3xl md:text-5xl tracking-[-0.05em] animate-[marquee_18s_linear_infinite]">
+    <div class="flex gap-10 whitespace-nowrap uppercase font-display font-extrabold text-3xl md:text-5xl tracking-tighter animate-[marquee_18s_linear_infinite]">
         <span>Branding</span><span class="text-coral">✦</span>
         <span>Print</span><span class="text-lime">✦</span>
         <span>Édition</span><span class="text-sky">✦</span>
@@ -55,19 +56,19 @@
 <section class="px-6 md:px-10 py-24">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-[2rem] p-8 bg-paper hover:bg-coral transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]">
+        <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-4xl p-8 bg-paper hover:bg-coral transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]">
             <span class="text-sm font-bold">01</span>
             <h2 class="font-display text-4xl font-extrabold mt-8 mb-4 tracking-[-0.06em]">Identités visuelles</h2>
             <p class="text-sm text-muted group-hover:text-ink">Logos, chartes, systèmes graphiques et univers de marque.</p>
         </a>
 
-        <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-[2rem] p-8 bg-sky hover:bg-lime transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]" style="transition-delay: .1s;">
+        <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-4xl p-8 bg-sky hover:bg-lime transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]" style="transition-delay: .1s;">
             <span class="text-sm font-bold">02</span>
             <h2 class="font-display text-4xl font-extrabold mt-8 mb-4 tracking-[-0.06em]">Édition & print</h2>
             <p class="text-sm text-muted group-hover:text-ink">Affiches, livrets, compositions typographiques et supports imprimés.</p>
         </a>
 
-        <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-[2rem] p-8 bg-violet text-paper hover:bg-ink transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]" style="transition-delay: .2s;">
+        <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-4xl p-8 bg-violet text-paper hover:bg-ink transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]" style="transition-delay: .2s;">
             <span class="text-sm font-bold">03</span>
             <h2 class="font-display text-4xl font-extrabold mt-8 mb-4 tracking-[-0.06em]">Digital design</h2>
             <p class="text-sm text-paper/70 group-hover:text-paper">Maquettes, contenus digitaux, interfaces et storytelling visuel.</p>
@@ -98,4 +99,60 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Parallax follow + hover interactions for decorative shapes (desktop only)
+  (function(){
+    const isLarge = () => window.matchMedia('(min-width: 1024px)').matches;
+    const shapes = [document.getElementById('shape-sky'), document.getElementById('blob-coral'), document.getElementById('star-violet')].filter(Boolean);
+    let mouseX = 0, mouseY = 0, rx = 0, ry = 0;
+
+    function onMove(e){
+      mouseX = e.clientX; mouseY = e.clientY;
+    }
+
+    function animate(){
+      rx += (mouseX - rx) * 0.08;
+      ry += (mouseY - ry) * 0.08;
+      shapes.forEach((el, i) => {
+        if(!el) return;
+        // different strength per shape for depth
+        const depth = [0.04, 0.06, 0.02][i] || 0.04;
+        const offsetX = (rx - window.innerWidth/2) * depth;
+        const offsetY = (ry - window.innerHeight/2) * depth;
+        el.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) rotate(${(i===2?12:0)}deg)`;
+      });
+      requestAnimationFrame(animate);
+    }
+
+    // hover scale effect
+    shapes.forEach(el=>{
+      el.addEventListener('mouseenter', ()=> el.style.transform += ' scale(1.08)');
+      el.addEventListener('mouseleave', ()=> el.style.transform = el.style.transform.replace(/ scale\([^)]*\)/,'') );
+      // click scroll to projects section
+      el.addEventListener('click', ()=>{
+        const target = document.getElementById('projects') || document.querySelector('[id^="projects"]');
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    function enable(){
+      if(!isLarge()) return;
+      window.addEventListener('mousemove', onMove);
+      requestAnimationFrame(animate);
+      shapes.forEach(s=> s.classList.remove('hidden'));
+    }
+
+    function disable(){
+      window.removeEventListener('mousemove', onMove);
+      shapes.forEach(s=> s.classList.add('hidden'));
+    }
+
+    // init based on viewport
+    if(isLarge()) enable(); else disable();
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e)=> e.matches ? enable() : disable());
+  })();
+</script>
 {% endblock %}

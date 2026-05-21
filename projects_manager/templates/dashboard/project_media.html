@@ -4,22 +4,18 @@
 
 <section class="px-6 md:px-10 pt-32 pb-24">
 
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
 
         <div>
-            <p class="text-xs uppercase tracking-[0.18em] font-bold mb-4">
-                Dashboard · Médias
-            </p>
-
-            <h1 class="font-display text-5xl md:text-8xl font-extrabold tracking-[-0.08em] leading-none">
-                {{ project.title }}
-            </h1>
+            <p class="text-xs uppercase tracking-[0.18em] font-bold mb-2">Tableau de bord</p>
+            <h1 class="font-display text-4xl md:text-6xl font-extrabold tracking-[-0.06em] leading-none">{{ project.title }}</h1>
+            <p class="text-sm text-muted mt-2">Médias du projet</p>
         </div>
 
-        <a href="{% url 'dashboard' %}"
-           class="bg-paper border-2 border-ink rounded-full px-6 py-4 text-xs uppercase tracking-[0.16em] font-bold shadow-[4px_4px_0_#111]">
-            Retour dashboard
-        </a>
+        <div class="flex gap-3 flex-wrap">
+            <a href="{% url 'dashboard_project_update' project.id %}" class="bg-paper border-2 border-ink rounded-full px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold">Modifier le projet</a>
+            <a href="{% url 'dashboard' %}" class="bg-paper border-2 border-ink rounded-full px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold">Tableau de bord</a>
+        </div>
 
     </div>
 

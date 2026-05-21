@@ -4,14 +4,17 @@
 
 <section class="px-6 md:px-10 pt-32 pb-24 max-w-5xl mx-auto">
 
-    <div class="mb-16">
-        <p class="text-xs uppercase tracking-[0.18em] font-bold mb-4">
-            Dashboard
-        </p>
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
 
-        <h1 class="font-display text-6xl md:text-8xl font-extrabold tracking-[-0.08em] leading-none">
-            Catégories
-        </h1>
+        <div>
+            <p class="text-xs uppercase tracking-[0.18em] font-bold mb-2">Tableau de bord</p>
+            <h1 class="font-display text-4xl md:text-6xl font-extrabold tracking-[-0.06em] leading-none">Catégories</h1>
+        </div>
+
+        <div class="flex gap-3 flex-wrap">
+            <a href="{% url 'dashboard' %}" class="bg-paper border-2 border-ink rounded-full px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold">Tableau de bord</a>
+        </div>
+
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -33,10 +36,16 @@
                     {{ form.name }}
                 </div>
 
-                <button type="submit"
-                        class="bg-ink text-paper rounded-full px-6 py-4 text-xs uppercase tracking-[0.16em] font-bold">
-                    Ajouter
-                </button>
+                <div class="flex items-center gap-4">
+                    <button type="submit"
+                            class="bg-ink text-paper rounded-full px-6 py-4 text-xs uppercase tracking-[0.16em] font-bold">
+                        {% if is_update %}Enregistrer{% else %}Ajouter{% endif %}
+                    </button>
+
+                    {% if is_update and category %}
+                        <a href="{% url 'dashboard_categories' %}" class="bg-paper border-2 border-ink rounded-full px-4 py-3 text-xs uppercase tracking-[0.12em] font-semibold">Annuler</a>
+                    {% endif %}
+                </div>
 
             </form>
 
