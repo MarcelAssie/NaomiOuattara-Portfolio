@@ -2,237 +2,368 @@
 
 {% block content %}
 
-<section class="px-6 md:px-10 pt-32 pb-16 overflow-hidden">
+<!-- Custom Styles for this page -->
+<style>
+    .project-header-title {
+        line-height: 0.8;
+        letter-spacing: -0.05em;
+    }
+    .floating-card {
+        transform: rotate(-1.5deg);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .floating-card:hover {
+        transform: rotate(0deg) translateY(-5px);
+    }
+    .staggered-media:nth-child(even) {
+        margin-top: 4rem;
+    }
+    @media (max-width: 768px) {
+        .staggered-media:nth-child(even) {
+            margin-top: 0;
+        }
+    }
+    .custom-cursor {
+        width: 100px;
+        height: 100px;
+        background: #C8FF2E;
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        mix-blend-mode: difference;
+        transform: scale(0);
+        transition: transform 0.3s ease;
+    }
+    .media-card:hover ~ .custom-cursor {
+        transform: scale(1);
+    }
+</style>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+<!-- Hero Section -->
+<section class="relative px-6 md:px-10 pt-40 pb-20">
+    <div class="flex flex-col lg:flex-row gap-12 lg:items-end">
+        <div class="lg:w-3/4">
+            <div class="flex items-center gap-4 mb-8 overflow-hidden">
+                <span class="h-[2px] w-12 bg-ink/20"></span>
+                <p class="text-xs uppercase tracking-[0.2em] font-medium text-muted">
+                    {{ project.category.name }} — {{ project.year }}
+                </p>
+            </div>
 
-        <div class="lg:col-span-8">
-            <p class="reveal text-xs uppercase tracking-[0.18em] font-bold mb-6">
-                {{ project.category.name }} · {{ project.year }}
-            </p>
-
-            <h1 class="reveal font-display text-[15vw] md:text-[10vw] lg:text-[7vw] font-extrabold leading-[0.78] tracking-[-0.08em] uppercase">
-                {{ project.title }}
+            <h1 class="project-header-title font-display text-[14vw] md:text-[12vw] lg:text-[11vw] font-black uppercase">
+                <span class="inline-block" id="title-main">{{ project.title }}</span>
             </h1>
         </div>
 
-        <div class="lg:col-span-4 reveal flex lg:items-end">
-            <div class="bg-lime border-2 border-ink rounded-[2rem] p-6 shadow-[7px_7px_0_#111] rotate-[-2deg]">
-                <p class="text-sm leading-relaxed">
-                    {{ project.description }}
+        <div class="lg:w-1/4">
+            <div class="floating-card bg-lime border-2 border-ink rounded-[2.5rem] p-8 shadow-[8px_8px_0_#111]">
+                <p class="text-sm leading-relaxed mb-6 italic">
+                    "{{ project.description }}"
                 </p>
-
-                {% if project.client %}
-                <p class="mt-6 text-xs uppercase tracking-[0.16em] font-bold">
-                    Client / contexte : {{ project.client }}
-                </p>
-                {% endif %}
-            </div>
-        </div>
-
-    </div>
-
-    {% if project.cover_image %}
-    <div class="reveal border-2 border-ink rounded-[3rem] overflow-hidden shadow-[10px_10px_0_#111] mb-20">
-        <img src="{{ project.cover_image.url }}"
-             alt="{{ project.title }}"
-             class="w-full h-[55vh] object-cover">
-    </div>
-    {% endif %}
-
-</section>
-
-<section class="px-6 md:px-10 pb-20">
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-        <div class="lg:col-span-4">
-            <div class="sticky top-28 border-2 border-ink rounded-[2rem] bg-paper p-8 shadow-[6px_6px_0_#111]">
-                <p class="text-xs uppercase tracking-[0.18em] font-bold mb-8">
-                    Informations
-                </p>
-
-                <div class="space-y-6 text-sm">
-                    <div>
-                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Projet</span>
-                        <strong>{{ project.title }}</strong>
-                    </div>
-
-                    <div>
-                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Catégorie</span>
-                        <strong>{{ project.category.name }}</strong>
-                    </div>
-
-                    <div>
-                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Année</span>
-                        <strong>{{ project.year }}</strong>
-                    </div>
-
-                    {% if project.client %}
-                    <div>
-                        <span class="block text-muted text-xs uppercase tracking-[0.16em] mb-1">Client</span>
-                        <strong>{{ project.client }}</strong>
-                    </div>
-                    {% endif %}
+                <div class="pt-6 border-t border-ink/10 flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-widest">Client</span>
+                    <span class="text-xs font-semibold">{{ project.client|default:"Concept Personnel" }}</span>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <div class="lg:col-span-8">
-            <p class="reveal font-display text-3xl md:text-5xl font-extrabold leading-[0.95] tracking-[-0.05em] mb-12">
+<!-- Cover Section -->
+{% if project.cover_image %}
+<section class="px-6 md:px-10 mb-32" id="cover-section">
+    <div class="relative group cursor-none border-2 border-ink rounded-[3.5rem] overflow-hidden shadow-[15px_15px_0_#111]">
+        <img src="{{ project.cover_image.url }}"
+             alt="{{ project.title }}"
+             class="w-full h-[60vh] md:h-[80vh] object-cover transition-transform duration-1000 group-hover:scale-105"
+             id="cover-img">
+        <div class="absolute inset-0 bg-ink/10 group-hover:bg-transparent transition-colors duration-500"></div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Details & Info Grid -->
+<section class="px-6 md:px-10 pb-40">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+
+        <!-- Left: Large Text -->
+        <div class="lg:col-span-7">
+            <h2 class="font-display text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-[0.9] mb-12">
                 {{ project.details|linebreaksbr }}
+            </h2>
+        </div>
+
+        <!-- Right: Technical Specs -->
+        <div class="lg:col-span-5">
+            <div class="sticky top-32 space-y-12">
+                <div class="bg-paper border-2 border-ink rounded-[2rem] p-10 shadow-[10px_10px_0_#FF4D2E]">
+                    <h3 class="font-display text-2xl font-black uppercase mb-10 border-b-2 border-ink pb-4">
+                        Index Technique
+                    </h3>
+
+                    <div class="space-y-8">
+                        <div class="flex justify-between items-baseline group">
+                            <span class="text-xs uppercase tracking-tighter text-muted group-hover:text-ink transition-colors">Typologie</span>
+                            <div class="flex-grow border-b border-dotted border-ink/20 mx-4"></div>
+                            <span class="text-sm font-medium">{{ project.category.name }}</span>
+                        </div>
+
+                        <div class="flex justify-between items-baseline group">
+                            <span class="text-xs uppercase tracking-tighter text-muted group-hover:text-ink transition-colors">Date de sortie</span>
+                            <div class="flex-grow border-b border-dotted border-ink/20 mx-4"></div>
+                            <span class="text-sm font-medium">{{ project.year }}</span>
+                        </div>
+
+                        <div class="flex justify-between items-baseline group">
+                            <span class="text-xs uppercase tracking-tighter text-muted group-hover:text-ink transition-colors">Contexte</span>
+                            <div class="flex-grow border-b border-dotted border-ink/20 mx-4"></div>
+                            <span class="text-sm font-medium">{{ project.client|default:"—" }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back button Neo-Brutalism -->
+                <a href="{% url 'projects' %}" class="inline-flex items-center gap-4 bg-ink text-paper px-8 py-5 rounded-full font-display font-bold uppercase tracking-widest text-xs hover:bg-violet transition-colors group">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="group-hover:-translate-x-1 transition-transform">
+                        <path d="M15.8333 10H4.16666M4.16666 10L9.16666 15M4.16666 10L9.16666 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Retour aux projets
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Media Gallery staggered -->
+{% if media_list %}
+<section class="px-6 md:px-10 pb-40 overflow-hidden" id="gallery">
+    <div class="mb-20">
+        <h2 class="font-display text-[8vw] font-black uppercase tracking-tighter leading-none mb-4">
+            Visual Assets<span class="text-violet">.</span>
+        </h2>
+        <p class="text-xs uppercase tracking-widest font-bold text-muted ml-1">Documentation visuelle du projet</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20">
+        {% for media in media_list %}
+        <div class="staggered-media">
+            <div class="media-card group relative bg-white border-2 border-ink rounded-[2rem] overflow-hidden shadow-[8px_8px_0_#111] transition-transform duration-500 hover:-translate-y-2 cursor-none"
+                 onclick="openMedia('{{ media.file.url }}', '{{ media.media_type }}', '{{ media.caption|default:project.title }}')">
+
+                <div class="aspect-square md:aspect-[4/5] overflow-hidden">
+                    {% if media.media_type == "image" %}
+                        <img src="{{ media.file.url }}"
+                             alt="{{ media.caption }}"
+                             class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100">
+                    {% elif media.media_type == "video" %}
+                        <video src="{{ media.file.url }}"
+                               muted loop autoplay
+                               class="w-full h-full object-cover"></video>
+                    {% else %}
+                        {# Fallback for "both" or unknown types - trying to detect by extension or defaulting to image #}
+                        {% if ".mp4" in media.file.url or ".webm" in media.file.url or ".mov" in media.file.url %}
+                             <video src="{{ media.file.url }}"
+                               muted loop autoplay
+                               class="w-full h-full object-cover"></video>
+                        {% else %}
+                            <img src="{{ media.file.url }}"
+                                 alt="{{ media.caption }}"
+                                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100">
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <div class="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div class="bg-paper/90 backdrop-blur-md border border-ink p-4 rounded-xl shadow-xl flex justify-between items-center">
+                        <span class="text-[10px] font-black uppercase tracking-tighter">{{ media.caption|default:project.title }}</span>
+                        <div class="h-6 w-6 bg-ink text-paper rounded-full flex items-center justify-center">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- More Projects -->
+{% if related_projects %}
+<section class="px-6 md:px-10 pb-40 bg-ink text-paper -mx-6 md:-mx-10 pt-40">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-10">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <h2 class="font-display text-6xl md:text-8xl font-black uppercase tracking-tighter">
+                Next <br>Works<span class="text-lime">.</span>
+            </h2>
+            <p class="max-w-xs text-xs uppercase tracking-widest text-paper/60 leading-relaxed">
+                Explore d'autres projets de la catégorie {{ project.category.name }}
             </p>
         </div>
 
-    </div>
-
-</section>
-
-{% if media_list %}
-<section class="px-6 md:px-10 pb-24">
-
-    <div class="mb-10">
-        <p class="text-xs uppercase tracking-[0.18em] font-bold mb-4">
-            Galerie
-        </p>
-
-        <h2 class="font-display text-4xl md:text-6xl font-extrabold tracking-[-0.06em]">
-            Aperçu du projet
-        </h2>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {% for media in media_list %}
-        <button type="button"
-                class="media-card group bg-paper border border-ink/20 rounded-[1.5rem] overflow-hidden hover:border-ink transition-all duration-300"
-                data-src="{{ media.file.url }}"
-                data-type="{{ media.media_type }}"
-                data-caption="{{ media.caption|default:project.title }}">
-
-            <div class="aspect-[4/3] bg-white overflow-hidden">
-                {% if media.media_type == "image" %}
-                    <img src="{{ media.file.url }}"
-                         alt="{{ media.caption }}"
-                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                {% else %}
-                    <video src="{{ media.file.url }}"
-                           muted
-                           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></video>
-                {% endif %}
-            </div>
-
-            <div class="p-4 flex items-center justify-between">
-                <span class="text-[10px] uppercase tracking-[0.16em] font-bold text-muted">
-                    {{ media.media_type }}
-                </span>
-
-                <span class="text-sm font-bold">
-                    Voir
-                </span>
-            </div>
-
-        </button>
-        {% endfor %}
-
-    </div>
-
-</section>
-
-<div id="mediaModal" class="fixed inset-0 z-[999] hidden bg-ink/90 p-6 md:p-10">
-    <button id="closeModal"
-            class="absolute top-6 right-6 bg-paper text-ink rounded-full px-5 py-3 text-xs uppercase tracking-[0.16em] font-bold">
-        Fermer
-    </button>
-
-    <div class="h-full flex flex-col items-center justify-center gap-6">
-        <div id="modalContent" class="max-w-5xl max-h-[78vh] w-full flex items-center justify-center"></div>
-        <p id="modalCaption" class="text-paper text-sm uppercase tracking-[0.16em] font-bold"></p>
-    </div>
-</div>
-{% endif %}
-
-{% if related_projects %}
-<section class="px-6 md:px-10 pb-28">
-
-    <p class="text-xs uppercase tracking-[0.18em] font-bold mb-6">
-        Même catégorie
-    </p>
-
-    <h2 class="font-display text-5xl md:text-7xl font-extrabold tracking-[-0.07em] mb-10">
-        À découvrir aussi
-    </h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {% for related in related_projects %}
-        <a href="{% url 'project_detail' related.slug %}"
-           class="group border-2 border-ink rounded-[2rem] overflow-hidden bg-paper shadow-[6px_6px_0_#111] hover:-translate-y-1 transition-all">
-
-            <div class="aspect-[4/3] overflow-hidden bg-ink/10">
-                <img src="{{ related.thumbnail.url }}"
-                     alt="{{ related.title }}"
-                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-
-            <div class="p-6">
-                <p class="text-xs uppercase tracking-[0.16em] font-bold text-muted mb-3">
-                    {{ related.category.name }} · {{ related.year }}
-                </p>
-
-                <h3 class="font-display text-3xl font-extrabold tracking-[-0.05em]">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {% for related in related_projects %}
+            <a href="{% url 'project_detail' related.slug %}" class="group block">
+                <div class="aspect-[4/3] rounded-[2rem] overflow-hidden mb-8 border border-paper/10">
+                    <img src="{{ related.thumbnail.url }}"
+                         alt="{{ related.title }}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 border border-paper/30 rounded-full">
+                        {{ related.year }}
+                    </span>
+                    <span class="h-[1px] flex-grow bg-paper/20"></span>
+                </div>
+                <h3 class="font-display text-3xl font-bold group-hover:text-lime transition-colors">
                     {{ related.title }}
                 </h3>
-            </div>
-        </a>
-        {% endfor %}
+            </a>
+            {% endfor %}
+        </div>
     </div>
-
 </section>
 {% endif %}
 
+<!-- Custom Cursor for Media -->
+<div id="cursor" class="custom-cursor">Expand</div>
+
+<!-- Modal Refined -->
+<div id="mediaModal" class="fixed inset-0 z-[100] hidden bg-ink/95 backdrop-blur-sm p-6 md:p-10 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+    <button onclick="closeMediaModal()"
+            class="absolute top-10 right-10 bg-lime text-ink rounded-full w-14 h-14 flex items-center justify-center font-black shadow-[4px_4px_0_#111] z-[101] hover:scale-110 transition-transform">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+    </button>
+
+    <div class="w-full h-full flex flex-col items-center justify-center gap-8">
+        <div id="modalContent" class="max-w-6xl max-h-[80vh] w-full flex items-center justify-center"></div>
+        <div class="bg-paper text-ink px-6 py-3 rounded-full font-display font-black uppercase text-xs tracking-widest shadow-[4px_4px_0_#FF4D2E]">
+            <span id="modalCaption"></span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <script>
-    const modal = document.getElementById("mediaModal");
-    const modalContent = document.getElementById("modalContent");
-    const modalCaption = document.getElementById("modalCaption");
-    const closeModal = document.getElementById("closeModal");
+    gsap.registerPlugin(ScrollTrigger);
 
-    document.querySelectorAll(".media-card").forEach(card => {
-        card.addEventListener("click", () => {
-            const src = card.dataset.src;
-            const type = card.dataset.type;
-            const caption = card.dataset.caption;
+    // Initial animations
+    window.addEventListener('load', () => {
+        const tl = gsap.timeline();
 
-            modalContent.innerHTML = "";
+        tl.from(".project-header-title span", {
+            y: 200,
+            rotation: 10,
+            opacity: 0,
+            duration: 1.2,
+            ease: "expo.out",
+            stagger: 0.1
+        })
+        .from(".floating-card", {
+            x: 50,
+            opacity: 0,
+            rotation: 10,
+            duration: 1,
+            ease: "back.out(1.7)"
+        }, "-=0.8")
+        .from("#cover-section", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power4.out"
+        }, "-=0.6");
+    });
 
-            if (type === "image") {
-                modalContent.innerHTML = `
-                    <img src="${src}" class="max-h-[78vh] max-w-full object-contain rounded-[2rem] border-2 border-paper">
-                `;
-            } else {
-                modalContent.innerHTML = `
-                    <video src="${src}" controls autoplay class="max-h-[78vh] max-w-full rounded-[2rem] border-2 border-paper"></video>
-                `;
-            }
+    // Custom Cursor Logic
+    const cursor = document.getElementById('cursor');
+    const mediaCards = document.querySelectorAll('.media-card, #cover-section .relative');
 
-            modalCaption.textContent = caption;
-            modal.classList.remove("hidden");
-            document.body.style.overflow = "hidden";
+    document.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, {
+            x: e.clientX - 50,
+            y: e.clientY - 50,
+            duration: 0.1,
+            ease: "none"
         });
     });
 
-    closeModal?.addEventListener("click", () => {
-        modal.classList.add("hidden");
-        modalContent.innerHTML = "";
-        document.body.style.overflow = "";
+    mediaCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(cursor, { scale: 1, duration: 0.3 });
+            if(card.id === 'cover-section') cursor.innerText = "View Full";
+            else cursor.innerText = "Expand";
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(cursor, { scale: 0, duration: 0.3 });
+        });
     });
 
-    modal?.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.classList.add("hidden");
-            modalContent.innerHTML = "";
-            document.body.style.overflow = "";
+    // Modal Logic
+    const modal = document.getElementById("mediaModal");
+    const modalContent = document.getElementById("modalContent");
+    const modalCaption = document.getElementById("modalCaption");
+
+    function openMedia(src, type, caption) {
+        modalContent.innerHTML = "";
+        if (type === "image") {
+            modalContent.innerHTML = `<img src="${src}" class="max-h-[80vh] max-w-full object-contain border-4 border-ink shadow-[20px_20px_0_#111] rounded-2xl">`;
+        } else {
+            modalContent.innerHTML = `<video src="${src}" controls autoplay class="max-h-[80vh] max-w-full border-4 border-ink shadow-[20px_20px_0_#111] rounded-2xl"></video>`;
         }
+        modalCaption.textContent = caption;
+        modal.classList.remove("hidden");
+        gsap.to(modal, { opacity: 1, duration: 0.4 });
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMediaModal() {
+        gsap.to(modal, {
+            opacity: 0,
+            duration: 0.3,
+            onComplete: () => {
+                modal.classList.add("hidden");
+                modalContent.innerHTML = "";
+                document.body.style.overflow = "";
+            }
+        });
+    }
+
+    // Modal close on click outside
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) closeMediaModal();
+    });
+
+    // Scroll Animations
+    gsap.utils.toArray('.staggered-media').forEach(card => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
     });
 </script>
-
 {% endblock %}

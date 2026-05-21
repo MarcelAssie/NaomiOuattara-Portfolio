@@ -31,7 +31,7 @@ def project_detail(request, slug):
     related_projects = Project.objects.filter(
         category=project.category
     ).exclude(id=project.id)[:3]
-
+    print(related_projects)
     return render(request, "home/details.html", {
         "project": project,
         "media_list": project.media.all(),

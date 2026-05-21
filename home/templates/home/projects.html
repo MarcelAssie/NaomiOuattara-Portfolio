@@ -43,7 +43,7 @@
             data-category="{% if project.category %}{{ project.category.slug }}{% endif %}"
         >
 
-            <a href="{% url 'details' project.slug %}" class="block">
+            <a href="{% url 'project_detail' project.slug %}" class="block">
 
                 <div class="relative aspect-[4/3] overflow-hidden bg-ink/10">
 
