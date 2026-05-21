@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="px-6 md:px-10 pt-32 pb-20 overflow-hidden">
+<section class="px-6 md:px-10 pt-24 md:pt-32 pb-20 overflow-hidden">
 
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-20">
         <div>
@@ -10,13 +10,13 @@
                 Portfolio · Projets sélectionnés
             </p>
 
-            <h1 class="reveal font-display text-[18vw] md:text-[12vw] lg:text-[9vw] font-extrabold leading-[0.78] tracking-[-0.08em] uppercase">
+            <h1 class="reveal font-display text-[10vw] sm:text-[8vw] md:text-[8vw] lg:text-[7vw] font-extrabold leading-[0.8] tracking-[-0.08em] uppercase">
                 Projets<br>
                 <span class="text-coral">créatifs</span>
             </h1>
         </div>
 
-        <p class="reveal max-w-md text-sm md:text-base leading-relaxed text-muted">
+            <p class="reveal max-w-md text-sm md:text-base leading-relaxed text-muted">
             Une sélection de créations graphiques, supports imprimés, identités visuelles,
             maquettes digitales et expérimentations visuelles.
         </p>
@@ -34,7 +34,7 @@
     </div>
     {% endif %}
 
-    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
 
         {% for project in projects %}
 
@@ -45,7 +45,7 @@
 
             <a href="{% url 'project_detail' project.slug %}" class="block">
 
-                <div class="relative aspect-[4/3] overflow-hidden bg-ink/10">
+                <div class="relative aspect-video overflow-hidden bg-ink/10">
 
                     <img
                         src="{{ project.thumbnail.url }}"
@@ -67,7 +67,7 @@
 
                 </div>
 
-                <div class="p-6 md:p-8">
+                <div class="p-5 sm:p-6 md:p-8">
 
                     <div class="flex justify-between items-start gap-6 mb-8">
                         <div>
@@ -80,7 +80,7 @@
                                 · {{ project.year }}
                             </p>
 
-                            <h2 class="font-display text-4xl md:text-5xl font-extrabold tracking-[-0.06em] leading-[0.9]">
+                            <h2 class="font-display text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-[-0.06em] leading-[0.92]">
                                 {{ project.title }}
                             </h2>
                         </div>
@@ -108,8 +108,8 @@
 
         {% empty %}
 
-        <div class="md:col-span-2 border-2 border-dashed border-ink rounded-[3rem] p-16 text-center bg-paper">
-            <p class="font-display text-5xl font-extrabold tracking-[-0.06em] mb-6">
+        <div class="md:col-span-2 border-2 border-dashed border-ink rounded-[3rem] p-10 sm:p-16 text-center bg-paper">
+            <p class="font-display text-3xl sm:text-5xl font-extrabold tracking-[-0.06em] mb-6">
                 Aucun projet publié.
             </p>
             <p class="text-muted">
@@ -124,13 +124,13 @@
 </section>
 
 <section class="px-6 md:px-10 pb-28">
-    <div class="reveal border-2 border-ink rounded-[3rem] bg-ink text-paper p-8 md:p-14 shadow-[10px_10px_0_#111]">
+        <div class="reveal border-2 border-ink rounded-[3rem] bg-ink text-paper p-6 sm:p-8 md:p-14 shadow-[10px_10px_0_#111]">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
             <div class="lg:col-span-8">
                 <p class="uppercase text-xs tracking-[0.16em] font-bold mb-6 text-paper/60">
                     Contact
                 </p>
-                <h2 class="font-display text-5xl md:text-8xl font-extrabold leading-[0.82] tracking-[-0.08em]">
+                <h2 class="font-display text-3xl sm:text-5xl md:text-8xl font-extrabold leading-[0.86] tracking-[-0.08em]">
                     Une idée, une affiche, une identité ?
                 </h2>
             </div>
@@ -167,13 +167,6 @@
         box-shadow: 0 0 0 #111;
     }
 
-    .project-card.hidden-project {
-        opacity: 0;
-        transform: scale(0.94);
-        pointer-events: none;
-        display: none;
-    }
-
     .project-card {
         transform-style: preserve-3d;
     }
@@ -193,11 +186,7 @@
             projectCards.forEach(card => {
                 const category = card.dataset.category;
 
-                if (filter === "all" || category === filter) {
-                    card.classList.remove("hidden-project");
-                } else {
-                    card.classList.add("hidden-project");
-                }
+                card.classList.toggle("hidden", !(filter === "all" || category === filter));
             });
         });
     });
