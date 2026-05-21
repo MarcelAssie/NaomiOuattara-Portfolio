@@ -26,7 +26,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
         <div class="lg:col-span-4">
-            <form method="POST" enctype="multipart/form-data"
+            <form method="POST"
                   class="sticky top-28 border-2 border-ink rounded-[2.5rem] bg-lime p-8 shadow-[8px_8px_0_#111] space-y-6">
 
                 {% csrf_token %}
@@ -41,10 +41,14 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs uppercase font-bold mb-3">Fichier</label>
-                    {{ form.file }}
+                    <label class="block text-xs uppercase font-bold mb-3">
+                        Fichiers
+                    </label>
+
+                    {{ form.files }}
+
                     <p class="text-xs mt-2">
-                        Image ou vidéo liée au projet.
+                        Tu peux sélectionner plusieurs images ou vidéos.
                     </p>
                 </div>
 
@@ -52,12 +56,6 @@
                     <label class="block text-xs uppercase font-bold mb-3">Légende</label>
                     {{ form.caption }}
                 </div>
-
-                <div>
-                    <label class="block text-xs uppercase font-bold mb-3">Ordre</label>
-                    {{ form.order }}
-                </div>
-
                 <button type="submit"
                         class="bg-ink text-paper rounded-full px-6 py-4 text-xs uppercase tracking-[0.16em] font-bold">
                     Ajouter
@@ -91,13 +89,26 @@
                     </div>
 
                     <div class="p-6">
-                        <p class="text-xs uppercase tracking-[0.16em] font-bold mb-3">
-                            {{ media.media_type }} · ordre {{ media.order }}
-                        </p>
+                        <div class="flex items-start justify-between gap-4 mb-4">
 
-                        <h3 class="font-display text-2xl font-bold">
-                            {{ media.caption|default:"Sans légende" }}
-                        </h3>
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.16em] font-bold mb-3">
+                                    {{ media.media_type }} · ordre {{ media.order }}
+                                </p>
+
+                                <h3 class="font-display text-2xl font-bold">
+                                    {{ media.caption|default:"Sans légende" }}
+                                </h3>
+                            </div>
+
+                            <a href="{% url 'dashboard_media_delete' media.id %}"
+                               onclick="return confirm('Supprimer ce média ?')"
+                               class="text-xs uppercase font-bold text-coral border-b-2 border-coral whitespace-nowrap">
+                                Supprimer
+                            </a>
+
+                        </div>
+
                     </div>
 
                 </div>

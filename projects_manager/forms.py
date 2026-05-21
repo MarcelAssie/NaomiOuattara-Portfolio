@@ -122,3 +122,46 @@ class ProjectMediaForm(forms.ModelForm):
         self.fields["order"].widget.attrs.update({
             "class": INPUT_CLASS
         })
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+
+        if isinstance(data, (list, tuple)):
+            return [single_file_clean(d, initial) for d in data]
+
+        return single_file_clean(data, initial)
+
+
+class MultipleProjectMediaForm(forms.Form):
+    media_type = forms.ChoiceField(
+        choices=ProjectMedia.MEDIA_TYPE_CHOICES,
+        label="Type des médias"
+    )
+
+    files = MultipleFileField(
+        widget=MultipleFileInput(attrs={"multiple": True}),
+        label="Fichiers",
+        required=True
+    )
+
+    caption = forms.CharField(
+        max_length=255,
+        required=False,
+        label="Légende commune"
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["media_type"].widget.attrs.update({"class": SELECT_CLASS})
+        self.fields["files"].widget.attrs.update({"class": FILE_CLASS})
+        self.fields["caption"].widget.attrs.update({
+            "class": INPUT_CLASS,
+            "placeholder": "Ex : Photos personnalisées"
+        })

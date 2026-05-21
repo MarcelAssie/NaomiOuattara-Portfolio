@@ -1,4 +1,223 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% endblock content %}
+
+<section class="px-6 md:px-10 pt-32 pb-20 overflow-hidden">
+
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-20">
+        <div>
+            <p class="reveal text-xs uppercase tracking-[0.18em] font-bold mb-6">
+                Portfolio · Projets sélectionnés
+            </p>
+
+            <h1 class="reveal font-display text-[18vw] md:text-[12vw] lg:text-[9vw] font-extrabold leading-[0.78] tracking-[-0.08em] uppercase">
+                Projets<br>
+                <span class="text-coral">créatifs</span>
+            </h1>
+        </div>
+
+        <p class="reveal max-w-md text-sm md:text-base leading-relaxed text-muted">
+            Une sélection de créations graphiques, supports imprimés, identités visuelles,
+            maquettes digitales et expérimentations visuelles.
+        </p>
+    </div>
+
+    {% if categories %}
+    <div class="reveal flex flex-wrap gap-3 mb-16">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+
+        {% for category in categories %}
+            <button class="filter-btn" data-filter="{{ category.slug }}">
+                {{ category.name }}
+            </button>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        {% for project in projects %}
+
+        <article
+            class="project-card group relative border-2 border-ink rounded-[2.5rem] bg-paper overflow-hidden shadow-[8px_8px_0_#111] transition-all duration-300 hover:shadow-[14px_14px_0_#111] hover:-translate-y-2"
+            data-category="{% if project.category %}{{ project.category.slug }}{% endif %}"
+        >
+
+            <a href="#" class="block">
+
+                <div class="relative aspect-[4/3] overflow-hidden bg-ink/10">
+
+                    <img
+                        src="{{ project.thumbnail.url }}"
+                        alt="{{ project.title }}"
+                        class="project-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    >
+
+                    <div class="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-300"></div>
+
+                    {% if project.is_featured %}
+                    <div class="absolute top-5 left-5 bg-lime border-2 border-ink rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.16em] font-bold">
+                        Sélection
+                    </div>
+                    {% endif %}
+
+                    <div class="absolute bottom-5 right-5 bg-paper border-2 border-ink rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold transition-transform duration-300 group-hover:rotate-45 group-hover:bg-coral">
+                        →
+                    </div>
+
+                </div>
+
+                <div class="p-6 md:p-8">
+
+                    <div class="flex justify-between items-start gap-6 mb-8">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-muted mb-3">
+                                {% if project.category %}
+                                    {{ project.category.name }}
+                                {% else %}
+                                    Projet
+                                {% endif %}
+                                · {{ project.year }}
+                            </p>
+
+                            <h2 class="font-display text-4xl md:text-5xl font-extrabold tracking-[-0.06em] leading-[0.9]">
+                                {{ project.title }}
+                            </h2>
+                        </div>
+
+                        <span class="font-display text-4xl font-extrabold text-ink/15">
+                            {{ forloop.counter|stringformat:"02d" }}
+                        </span>
+                    </div>
+
+                    <p class="text-sm leading-relaxed text-muted max-w-xl">
+                        {{ project.description }}
+                    </p>
+
+                    {% if project.client %}
+                    <p class="mt-6 text-xs uppercase tracking-[0.16em] font-bold">
+                        {{ project.client }}
+                    </p>
+                    {% endif %}
+
+                </div>
+
+            </a>
+
+        </article>
+
+        {% empty %}
+
+        <div class="md:col-span-2 border-2 border-dashed border-ink rounded-[3rem] p-16 text-center bg-paper">
+            <p class="font-display text-5xl font-extrabold tracking-[-0.06em] mb-6">
+                Aucun projet publié.
+            </p>
+            <p class="text-muted">
+                Les projets ajoutés depuis le dashboard apparaîtront ici automatiquement.
+            </p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<section class="px-6 md:px-10 pb-28">
+    <div class="reveal border-2 border-ink rounded-[3rem] bg-ink text-paper p-8 md:p-14 shadow-[10px_10px_0_#111]">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+            <div class="lg:col-span-8">
+                <p class="uppercase text-xs tracking-[0.16em] font-bold mb-6 text-paper/60">
+                    Contact
+                </p>
+                <h2 class="font-display text-5xl md:text-8xl font-extrabold leading-[0.82] tracking-[-0.08em]">
+                    Une idée, une affiche, une identité ?
+                </h2>
+            </div>
+
+            <div class="lg:col-span-4">
+                <a href="mailto:naomi@email.com"
+                   class="inline-flex bg-paper text-ink rounded-full px-6 py-4 text-xs uppercase tracking-[0.16em] font-bold hover:bg-coral border-2 border-paper transition-colors">
+                    Écrire à Naomi →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .filter-btn {
+        border: 2px solid #111;
+        border-radius: 999px;
+        padding: 0.85rem 1.2rem;
+        background: #F7F2E8;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 800;
+        transition: all 0.25s ease;
+        box-shadow: 3px 3px 0 #111;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: #111;
+        color: #F7F2E8;
+        transform: translate(2px, 2px);
+        box-shadow: 0 0 0 #111;
+    }
+
+    .project-card.hidden-project {
+        opacity: 0;
+        transform: scale(0.94);
+        pointer-events: none;
+        display: none;
+    }
+
+    .project-card {
+        transform-style: preserve-3d;
+    }
+</style>
+
+<script>
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const projectCards = document.querySelectorAll(".project-card");
+
+    filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const filter = button.dataset.filter;
+
+            filterButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            projectCards.forEach(card => {
+                const category = card.dataset.category;
+
+                if (filter === "all" || category === filter) {
+                    card.classList.remove("hidden-project");
+                } else {
+                    card.classList.add("hidden-project");
+                }
+            });
+        });
+    });
+
+    projectCards.forEach(card => {
+        card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const rotateX = ((y / rect.height) - 0.5) * -6;
+            const rotateY = ((x / rect.width) - 0.5) * 6;
+
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "rotateX(0deg) rotateY(0deg) translateY(0)";
+        });
+    });
+</script>
+
+{% endblock %}

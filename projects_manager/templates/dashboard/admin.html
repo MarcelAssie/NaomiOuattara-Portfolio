@@ -87,11 +87,23 @@
                 {{ project.year }}
             </div>
 
-            <div class="col-span-2">
+            <div class="col-span-2 flex flex-col gap-2">
                 <a href="{% url 'dashboard_project_media' project.id %}"
-                   class="text-xs uppercase font-bold border-b-2 border-ink">
-                    Gérer →
+                   class="text-xs uppercase font-bold border-b-2 border-ink w-fit">
+                    Médias →
                 </a>
+
+                <a href="{% url 'dashboard_project_update' project.id %}"
+                   class="text-xs uppercase font-bold border-b-2 border-ink w-fit">
+                    Modifier
+                </a>
+
+                <a href="{% url 'dashboard_project_delete' project.id %}"
+                   onclick="return confirm('Supprimer ce projet ? Les médias doivent être supprimés avant.')"
+                   class="text-xs uppercase font-bold text-coral border-b-2 border-coral w-fit">
+                    Supprimer
+                </a>
+
             </div>
 
         </div>
