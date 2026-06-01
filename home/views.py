@@ -1,6 +1,18 @@
+from pathlib import Path
+
+from django.conf import settings
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from projects_manager.models import Project, Category
+
+
+CV_FILENAME = "Ouattara_Naomi_Curriculum Vitae_ Alternance  - CDD-CDI pdf.pdf"
+CV_DOWNLOAD_NAME = "Ouattara_Naomi_Curriculum Vitae_ Alternance  - CDD-CDI pdf.pdf"
+CV_PATH = Path(settings.BASE_DIR) / "static" / "assets" / "docs" / CV_FILENAME
+
+
 def welcome(request):
     return render(request, 'home/welcome.html')
 
@@ -14,6 +26,32 @@ def about(request):
 
 def contact(request):
     return render(request, "home/contact.html")
+
+
+def cv(request):
+    return render(request, "home/cv.html", {
+        "cv_download_name": CV_DOWNLOAD_NAME,
+    })
+
+
+@xframe_options_sameorigin
+def cv_view(request):
+    return FileResponse(
+        CV_PATH.open("rb"),
+        as_attachment=False,
+        filename=CV_DOWNLOAD_NAME,
+        content_type="application/pdf",
+    )
+
+
+def cv_download(request):
+    return FileResponse(
+        CV_PATH.open("rb"),
+        as_attachment=True,
+        filename=CV_DOWNLOAD_NAME,
+        content_type="application/pdf",
+    )
+
 
 def projects(request):
     created_projects = Project.objects.select_related("category").all()

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="417.99" y="463.67" width="78.23" height="143.88" rx="32.29" ry="32.29" transform="translate(735.74 -111.07) rotate(63.79)"/>
+  <path class="cls-1" d="M420.95,706l-139.51,68.68c-12.64,6.22-27.93,1.02-34.16-11.62l-4.26-8.65c-3.92-7.96-3.42-17.39,1.32-24.9l97.42-154.19c10.65-16.86,35.65-15.53,44.46,2.36l46.35,94.16c6.22,12.64,1.02,27.93-11.62,34.16Z"/>
+  <g>
+    <rect class="cls-1" x="609.76" y="450.73" width="78.23" height="390.48" rx="32.29" ry="32.29" transform="translate(941.82 -221.5) rotate(63.79)"/>
+    <rect class="cls-1" x="667.67" y="639.13" width="78.23" height="157.5" rx="32.29" ry="32.29" transform="translate(1038.6609 -233.3046) rotate(63.7882)"/>
+    <rect class="cls-1" x="816.78" y="565.72" width="78.23" height="157.5" rx="32.29" ry="32.29" transform="translate(1056.0497 -408.063) rotate(63.7882)"/>
+    <g>
+      <rect class="cls-1" x="634.48" y="268" width="78.23" height="322.05" rx="32.29" ry="32.29" transform="translate(760.98 -364.8) rotate(63.79)"/>
+      <rect class="cls-1" x="516.32" y="456.12" width="78.23" height="270.88" rx="32.29" ry="32.29" transform="translate(840.83 -168.04) rotate(63.79)"/>
+      <rect class="cls-1" x="526.92" y="728.61" width="78.23" height="117.11" rx="32.29" ry="32.29" transform="translate(1022.2471 -68.3457) rotate(63.7882)"/>
+      <rect class="cls-1" x="719.78" y="405.66" width="78.23" height="171.48" rx="32.29" ry="32.29" transform="translate(864.56 -406.5) rotate(63.79)"/>
+      <path class="cls-1" d="M478.06,850.3l-178.08-9.65c-9.21-.5-17.43-5.93-21.51-14.21l-8.66-17.59c-6.22-12.64-1.02-27.93,11.62-34.16l139.51-68.68c12.64-6.22,27.93-1.02,34.16,11.62l47.23,95.93c8.61,17.5-4.79,37.8-24.27,36.74Z"/>
+      <path class="cls-1" d="M250.09,840.4l-47.84-2.59c-15.93-6.29-23.49-20.92-16.43-32.08l26.17-41.42c7.22-11.43,24.17-10.53,30.14,1.6l21.67,44.01c5.84,11.86-3.25,25.63-13.71,30.49Z"/>
+      <line class="cls-1" x1="279.74" y1="859.68" x2="271.38" y2="842.7"/>
+    </g>
+  </g>
+</svg>

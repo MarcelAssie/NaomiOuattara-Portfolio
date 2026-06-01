@@ -124,6 +124,7 @@
             <ul class="nav-links hidden md:flex items-center gap-3 text-xs uppercase tracking-[0.12em] font-semibold">
                 <li><a class="" data-nav="about" href="{% url 'about' %}">À propos</a></li>
                 <li><a class="" data-nav="projects" href="{% url 'projects' %}">Projets</a></li>
+                <li><a class="" data-nav="cv" href="{% url 'cv' %}">Mon CV</a></li>
                 <li><a class="" data-nav="contact" href="{% url 'contact' %}">Contact</a></li>
             </ul>
 
@@ -133,6 +134,7 @@
         <div id="mobileNav" class="mobile-nav md:hidden" aria-hidden="true">
             <a data-nav="about" href="{% url 'about' %}">À propos</a>
             <a data-nav="projects" href="{% url 'projects' %}">Projets</a>
+            <a data-nav="cv" href="{% url 'cv' %}">Mon CV</a>
             <a data-nav="contact" href="{% url 'contact' %}">Contact</a>
         </div>
     </nav>
@@ -207,7 +209,9 @@
                 const hash = window.location.hash.toLowerCase();
                 let activeKey = '';
 
-                if(path.includes('/contact')) {
+                if(path.includes('/cv')) {
+                    activeKey = 'cv';
+                } else if(path.includes('/contact')) {
                     activeKey = 'contact';
                 } else if(path.includes('/about')) {
                     activeKey = 'about';

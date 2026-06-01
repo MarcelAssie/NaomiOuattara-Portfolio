@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="px-6 md:px-10 pt-28 md:pt-36 pb-16">
+    <div class="mx-auto max-w-screen-2xl">
+        <div class="reveal mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+                <h1 class="font-display text-5xl sm:text-7xl md:text-8xl font-extrabold uppercase leading-[0.9] tracking-[-0.06em]">
+                    Mon CV
+                </h1>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+                <a href="{% url 'cv_view' %}" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border-2 border-ink bg-paper px-6 py-4 text-xs font-extrabold uppercase tracking-[0.16em] text-ink transition-colors hover:bg-sky">
+                    Visualiser
+                </a>
+                <a href="{% url 'cv_download' %}" class="inline-flex rounded-full border-2 border-ink bg-ink px-6 py-4 text-xs font-extrabold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-coral hover:text-ink">
+                    Télécharger
+                </a>
+            </div>
+        </div>
+
+        <div class="reveal overflow-hidden rounded-[2rem] border-2 border-ink bg-paper shadow-[8px_8px_0_#111]" style="transition-delay: .1s;">
+            <object data="{% url 'cv_view' %}#toolbar=1&navpanes=0" type="application/pdf" class="h-[78vh] min-h-[42rem] w-full">
+                <iframe src="{% url 'cv_view' %}" class="h-[78vh] min-h-[42rem] w-full" title="CV de Naomi Ouattara"></iframe>
+            </object>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
