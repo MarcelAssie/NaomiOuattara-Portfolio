@@ -124,7 +124,7 @@
             <ul class="nav-links hidden md:flex items-center gap-3 text-xs uppercase tracking-[0.12em] font-semibold">
                 <li><a class="" data-nav="about" href="{% url 'about' %}">À propos</a></li>
                 <li><a class="" data-nav="projects" href="{% url 'projects' %}">Projets</a></li>
-                <li><a class="" data-nav="contact" href="#contact">Contact</a></li>
+                <li><a class="" data-nav="contact" href="{% url 'contact' %}">Contact</a></li>
             </ul>
 
             <button id="mobileNavToggle" class="mobile-nav-toggle md:hidden" aria-expanded="false" aria-controls="mobileNav" aria-label="Ouvrir le menu">☰</button>
@@ -133,7 +133,7 @@
         <div id="mobileNav" class="mobile-nav md:hidden" aria-hidden="true">
             <a data-nav="about" href="{% url 'about' %}">À propos</a>
             <a data-nav="projects" href="{% url 'projects' %}">Projets</a>
-            <a data-nav="contact" href="#contact">Contact</a>
+            <a data-nav="contact" href="{% url 'contact' %}">Contact</a>
         </div>
     </nav>
 
@@ -207,7 +207,7 @@
                 const hash = window.location.hash.toLowerCase();
                 let activeKey = '';
 
-                if(hash === '#contact') {
+                if(path.includes('/contact')) {
                     activeKey = 'contact';
                 } else if(path.includes('/about')) {
                     activeKey = 'about';
