@@ -2,32 +2,25 @@
 
 {% block content %}
 
-<!-- Custom Styles -->
 <style>
-    :root {
-        --cursor-size: 20px;
-        --cursor-color: #7AE7FF;
-    }
-
     .project-header-title {
-        line-height: 0.82;
-        letter-spacing: -0.07em;
+        line-height: 0.88;
+        letter-spacing: -0.055em;
     }
 
-    /* Sticker Persistence & Style */
     .info-sticker {
         transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.6s ease;
         z-index: 40;
         background-color: #E8F4F7;
         width: 100%;
-        max-width: 380px; /* Limit sticker width so content can breathe */
-    }
-    .info-sticker:hover {
-        transform: rotate(0deg) scale(1.01);
-        box-shadow: 12px 12px 0 #111;
+        max-width: 350px;
     }
 
-    /* Figma Style Cursor */
+    .info-sticker:hover {
+        transform: rotate(0deg) scale(1.01);
+        box-shadow: 10px 10px 0 #111;
+    }
+
     #custom-cursor {
         position: fixed;
         top: 0;
@@ -49,12 +42,12 @@
     }
 
     #cursor-label {
-        background: var(--cursor-color);
+        background: #7AE7FF;
         color: #111;
         padding: 4px 10px;
         border-radius: 4px;
         font-size: 11px;
-        font-weight: 800;
+        font-weight: 700;
         text-transform: uppercase;
         white-space: nowrap;
         box-shadow: 3px 3px 0 #111;
@@ -68,18 +61,15 @@
         transform: scale(1);
     }
 
-    /* Typography refinement: ELEGANT SYNE (NOT GIANT) */
     .details-text {
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(1rem, 1.4vw + 0.4rem, 1.85rem);
-        line-height: 1.25;
-        font-weight: 500;
-        letter-spacing: -0.03em;
+        font-size: clamp(1.05rem, 0.8vw + 0.75rem, 1.55rem);
+        line-height: 1.48;
+        font-weight: 400;
+        letter-spacing: -0.015em;
         color: #111;
-        max-width: 1000px;
+        max-width: 980px;
     }
 
-    /* Full Width Adjustments */
     .page-container {
         width: 100%;
         padding-left: 4%;
@@ -91,7 +81,6 @@
         aspect-ratio: 16 / 9;
     }
 
-    /* Modal Tweaks */
     #galleryModal {
         background: rgba(11, 11, 11, 0.96);
         backdrop-filter: blur(15px);
@@ -102,13 +91,13 @@
         box-shadow: 8px 8px 0 #111;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+
     .close-btn:hover {
-        transform: scale(1.1) rotate(90deg);
+        transform: scale(1.08) rotate(90deg);
         background: #7AE7FF;
     }
 </style>
 
-<!-- Figma Cursor -->
 <div id="custom-cursor">
     <svg id="cursor-icon" viewBox="0 0 24 24">
         <path d="M5.5 3.21V20.8l4.47-4.47 3.61 8.5 3.12-1.32-3.56-8.39h6.18L5.5 3.21z"/>
@@ -118,71 +107,63 @@
 
 <div class="page-container relative">
 
-    <!-- Hero Section -->
-    <section class="pt-32 md:pt-48 pb-10">
-        <div class="flex items-center gap-5 mb-10">
+    <section class="pt-32 md:pt-44 pb-8">
+        <div class="flex items-center gap-5 mb-8">
             <span class="w-16 h-[3px] bg-coral"></span>
-            <p class="text-xs md:text-sm uppercase tracking-[0.4em] font-black text-coral">
+            <p class="text-xs md:text-sm uppercase tracking-[0.32em] font-bold text-coral">
                 {{ project.category.name }} — {{ project.year }}
             </p>
         </div>
 
-        <h1 class="project-header-title font-display text-[11vw] md:text-[8vw] lg:text-[7vw] font-black uppercase mb-24">
+        <h1 class="project-header-title font-display text-[4.5rem] sm:text-[6rem] lg:text-[6.4vw] font-extrabold uppercase mb-16">
             <span class="inline-block anim-title">{{ project.title }}</span>
         </h1>
     </section>
 
-    <!-- Content Grid: OCCUPYING FULL WIDTH -->
-    <section class="pb-60">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 lg:items-start relative">
+    <section class="pb-32">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 lg:items-start relative">
 
-            <!-- Left Column: Content (9 columns for massive impact) -->
-            <div class="lg:col-span-9 space-y-40">
-
-                <!-- Description -->
+            <div class="lg:col-span-9 space-y-24">
                 <div>
                     <p class="details-text">
                         {{ project.details|linebreaksbr }}
                     </p>
                 </div>
 
-                <!-- Cover Image (Imposing) -->
                 {% if project.cover_image %}
-                <div class="reveal-img relative border-2 border-ink rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-[15px_15px_0 #111] group cursor-pointer"
-                     onclick="openGalleryModal('{{ project.cover_image.url }}', 'image', '{{ project.title }}')">
+                <div class="reveal-img relative border-2 border-ink rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-[10px_10px_0 #111] group cursor-pointer"
+                     onclick="openGalleryModal('{{ project.cover_image.url }}', 'image', '{{ project.title|escapejs }}')">
                     <img src="{{ project.cover_image.url }}"
                          alt="{{ project.title }}"
-                         class="w-full h-[60vh] md:h-[80vh] object-cover transition-transform duration-[2s] group-hover:scale-105">
+                         class="w-full h-[52vh] md:h-[66vh] object-cover transition-transform duration-[2s] group-hover:scale-105">
                 </div>
                 {% endif %}
 
-                <!-- Visual Assets Gallery -->
                 {% if media_list %}
                 <div>
-                    <div class="mb-24 flex items-baseline gap-6">
-                        <h2 class="font-display text-6xl md:text-9xl font-black uppercase tracking-tighter leading-none">
+                    <div class="mb-14 flex items-baseline gap-6">
+                        <h2 class="font-display text-4xl md:text-6xl font-extrabold uppercase tracking-[-0.05em] leading-none">
                             Identité <br>Visuelle<span class="text-sky">.</span>
                         </h2>
-                        <p class="hidden md:block text-[10px] uppercase font-black tracking-widest text-muted">Galerie de ressources</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                         {% for media in media_list %}
-                        <div class="staggered-item" style="{% if forloop.counter|divisibleby:2 %}margin-top: 10rem;{% endif %}">
-                            <div class="group relative bg-white border-2 border-ink rounded-[2.5rem] overflow-hidden shadow-[10px_10px_0 #111] hover:shadow-[15px_15px_0 #7AE7FF] transition-all duration-500 hover:-translate-y-4 cursor-pointer"
-                                 onclick="openGalleryModal('{{ media.file.url }}', '{{ media.media_type }}', '{{ media.caption|default:project.title }}')">
+                        <div class="staggered-item" style="{% if forloop.counter|divisibleby:2 %}margin-top: 5rem;{% endif %}">
+                            <div class="group relative bg-white border-2 border-ink rounded-[2rem] overflow-hidden shadow-[8px_8px_0 #111] hover:shadow-[12px_12px_0 #7AE7FF] transition-all duration-500 hover:-translate-y-3 cursor-pointer"
+                                 onclick="openGalleryModal('{{ media.file.url }}', '{{ media.media_type }}', '{{ media.caption|default:project.title|escapejs }}')">
 
                                 <div class="media-card-landscape overflow-hidden">
                                     {% if media.media_type == "image" %}
                                         <img src="{{ media.file.url }}" alt="{{ media.caption }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000">
                                     {% elif media.media_type == "video" %}
-                                        <video src="{{ media.file.url }}" muted loop autoplay class="w-full h-full object-cover"></video>
+                                        <video src="{{ media.file.url }}" muted loop autoplay playsinline class="w-full h-full object-cover"></video>
                                     {% else %}
-                                         {% if ".mp4" in media.file.url or ".webm" in media.file.url %}
-                                            <video src="{{ media.file.url }}" muted loop autoplay class="w-full h-full object-cover"></video>
-                                         {% else %}
+                                        {% if ".mp4" in media.file.url or ".webm" in media.file.url %}
+                                            <video src="{{ media.file.url }}" muted loop autoplay playsinline class="w-full h-full object-cover"></video>
+                                        {% else %}
                                             <img src="{{ media.file.url }}" alt="{{ media.caption }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000">
-                                         {% endif %}
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -193,29 +174,28 @@
                 {% endif %}
             </div>
 
-            <!-- Right Column: Info Sticker (3 columns, stays sticky) -->
-            <div class="lg:col-span-3 lg:sticky lg:top-40 z-30 flex justify-end">
-                <div class="info-sticker border-2 border-ink rounded-[3rem] p-10 md:p-12 shadow-[10px_10px_0 #111] rotate-[1.5deg]">
-                    <div class="space-y-10">
+            <div class="lg:col-span-3 lg:sticky lg:top-32 z-30 flex justify-end">
+                <div class="info-sticker border-2 border-ink rounded-[2.5rem] p-7 md:p-8 shadow-[8px_8px_0 #111] rotate-[1deg]">
+                    <div class="space-y-7">
                         <div>
-                            <span class="block text-[10px] uppercase font-black tracking-widest text-ink/40 mb-4">Contexte</span>
-                            <p class="text-xl md:text-2xl font-bold leading-tight">{{ project.description }}</p>
+                            <span class="block text-[10px] uppercase font-bold tracking-widest text-ink/40 mb-3">Contexte</span>
+                            <p class="text-base md:text-lg font-medium leading-snug">{{ project.description }}</p>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-8 pt-10 border-t border-ink/10">
+                        <div class="grid grid-cols-1 gap-6 pt-7 border-t border-ink/10">
                             <div class="flex justify-between items-end">
-                                <span class="text-[10px] uppercase font-black tracking-widest text-ink/40">Date</span>
-                                <span class="text-xl font-black leading-none">{{ project.year }}</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-ink/40">Date</span>
+                                <span class="text-lg font-bold leading-none">{{ project.year }}</span>
                             </div>
                             <div class="flex flex-col gap-1">
-                                <span class="text-[10px] uppercase font-black tracking-widest text-ink/40">Client</span>
-                                <span class="text-xl font-black leading-tight">{{ project.client|default:"Personnel" }}</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-ink/40">Client</span>
+                                <span class="text-lg font-bold leading-tight">{{ project.client|default:"Personnel" }}</span>
                             </div>
                         </div>
 
-                        <a href="mailto:n.ouattara@myskolae.fr" class="btn-hover-trigger flex items-center justify-between bg-ink text-paper px-8 py-6 rounded-full text-xs font-black uppercase tracking-[0.2em] hover:bg-sky hover:text-ink transition-all shadow-lg">
+                        <a href="{% url 'contact' %}" class="btn-hover-trigger flex items-center justify-between bg-ink text-paper px-6 py-4 rounded-full text-xs font-bold uppercase tracking-[0.16em] hover:bg-sky hover:text-ink transition-all shadow-lg">
                             <span>Collaborer</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                 <path d="M5 12h14M12 5l7 7-7 7"/>
                             </svg>
                         </a>
@@ -228,31 +208,30 @@
 
 </div>
 
-<!-- Navigation footer -->
 {% if related_projects %}
-<section class="bg-ink text-paper py-48 px-6 md:px-20">
+<section class="bg-ink text-paper py-28 px-6 md:px-20">
     <div class="w-full mx-auto">
-        <div class="flex flex-col md:flex-row items-baseline justify-between gap-12 mb-32 border-b border-paper/10 pb-16">
-            <h2 class="font-display text-4xl md:text-[5vw] font-black uppercase tracking-tighter leading-none">
+        <div class="flex flex-col md:flex-row items-baseline justify-between gap-10 mb-20 border-b border-paper/10 pb-12">
+            <h2 class="font-display text-4xl md:text-[4.5vw] font-extrabold uppercase tracking-[-0.05em] leading-none">
                 Même <br>Catégorie
             </h2>
-            <a href="{% url 'projects' %}" class="btn-hover-trigger group flex items-center gap-6 text-xs font-black uppercase tracking-[0.4em] hover:text-sky transition-colors">
+            <a href="{% url 'projects' %}" class="btn-hover-trigger group flex items-center gap-5 text-xs font-bold uppercase tracking-[0.28em] hover:text-sky transition-colors">
                 Portfolio complet
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="group-hover:rotate-45 transition-transform">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="group-hover:rotate-45 transition-transform">
                     <path d="M7 17L17 7M17 7H7M17 7V17"/>
                 </svg>
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-20 lg:gap-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
             {% for related in related_projects|slice:":2" %}
             <a href="{% url 'project_detail' related.slug %}" class="group block">
-                <div class="aspect-[16/9] rounded-[4rem] overflow-hidden mb-12 border-2 border-paper/5 shadow-2xl">
+                <div class="aspect-[16/9] rounded-[2.5rem] overflow-hidden mb-8 border-2 border-paper/5 shadow-2xl">
                     <img src="{{ related.thumbnail.url }}" alt="{{ related.title }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105">
                 </div>
-                <div class="flex items-center gap-8">
-                    <span class="text-xs font-black uppercase tracking-widest py-3 px-6 border border-paper/20 rounded-full">{{ related.year }}</span>
-                    <h3 class="font-display text-2xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-sky transition-colors leading-none">{{ related.title }}</h3>
+                <div class="flex items-center gap-6">
+                    <span class="text-xs font-bold uppercase tracking-widest py-2 px-5 border border-paper/20 rounded-full">{{ related.year }}</span>
+                    <h3 class="font-display text-2xl md:text-4xl font-extrabold uppercase tracking-[-0.04em] group-hover:text-sky transition-colors leading-none">{{ related.title }}</h3>
                 </div>
             </a>
             {% endfor %}
@@ -261,22 +240,20 @@
 </section>
 {% endif %}
 
-<!-- Fullscreen Modal -->
 <div id="galleryModal" class="fixed inset-0 z-[1000] hidden flex items-center justify-center p-6 md:p-12 opacity-0">
     <div class="absolute inset-0" onclick="closeGalleryModal()"></div>
 
-    <!-- Modal Close Button -->
     <button onclick="closeGalleryModal()"
-            class="close-btn absolute top-8 right-8 md:top-12 md:right-12 text-paper rounded-full w-20 h-20 md:w-24 md:h-24 flex items-center justify-center z-[1100] cursor-pointer shadow-[10px_10px_0 #111]">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4">
+            class="close-btn absolute top-8 right-8 md:top-12 md:right-12 text-paper rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center z-[1100] cursor-pointer shadow-[8px_8px_0 #111]">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4">
             <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
     </button>
 
-    <div class="relative z-[1001] w-full h-full flex flex-col items-center justify-center gap-12">
+    <div class="relative z-[1001] w-full h-full flex flex-col items-center justify-center gap-8">
         <div id="modalInner" class="max-w-full md:max-w-7xl max-h-[80vh] w-full flex items-center justify-center pointer-events-none"></div>
-        <div class="bg-paper border-2 border-ink px-12 py-6 rounded-full shadow-[12px_12px_0 #7AE7FF]">
-            <p id="modalCaptionText" class="font-display font-black uppercase text-xs md:text-sm tracking-[0.25em] text-ink text-center"></p>
+        <div class="bg-paper border-2 border-ink px-8 py-4 rounded-full shadow-[8px_8px_0 #7AE7FF]">
+            <p id="modalCaptionText" class="font-display font-bold uppercase text-xs md:text-sm tracking-[0.2em] text-ink text-center"></p>
         </div>
     </div>
 </div>
@@ -290,7 +267,6 @@
 <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Figma Cursor Logic
     const cursor = document.getElementById('custom-cursor');
     const label = document.getElementById('cursor-label');
 
@@ -315,40 +291,38 @@
         });
     });
 
-    // Initial Animations
     window.addEventListener('load', () => {
-        const tl = gsap.timeline({ defaults: { ease: "expo.out", duration: 1.5 }});
+        const tl = gsap.timeline({ defaults: { ease: "expo.out", duration: 1.3 }});
 
         tl.from(".anim-title", {
-            y: 150,
+            y: 90,
             opacity: 0,
             stagger: 0.1,
-            skewY: 3
+            skewY: 2
         })
         .from(".details-text", {
-            y: 40,
+            y: 30,
             opacity: 0,
-            duration: 1.2
-        }, "-=1.2")
+            duration: 1
+        }, "-=1")
         .from(".info-sticker", {
-            x: 60,
-            rotation: 12,
+            x: 40,
+            rotation: 8,
             opacity: 0,
-            duration: 1.1
-        }, "-=1.4");
+            duration: 1
+        }, "-=1.2");
     });
 
-    // Gallery Modal Logic
     const modal = document.getElementById('galleryModal');
     const modalInner = document.getElementById('modalInner');
     const modalCaption = document.getElementById('modalCaptionText');
 
     function openGalleryModal(src, type, caption) {
         modalInner.innerHTML = "";
-        if (type === 'image') {
-            modalInner.innerHTML = `<img src="${src}" class="max-h-[80vh] max-w-full object-contain border-4 border-ink shadow-[25px_25px_0 #111] rounded-[2.5rem]">`;
+        if (type === 'image' || (!src.includes(".mp4") && !src.includes(".webm"))) {
+            modalInner.innerHTML = `<img src="${src}" class="max-h-[80vh] max-w-full object-contain border-4 border-ink shadow-[18px_18px_0 #111] rounded-[2rem]">`;
         } else {
-            modalInner.innerHTML = `<video src="${src}" controls autoplay class="max-h-[80vh] max-w-full border-4 border-ink shadow-[25px_25px_0 #111] rounded-[2.5rem]"></video>`;
+            modalInner.innerHTML = `<video src="${src}" controls autoplay class="max-h-[80vh] max-w-full border-4 border-ink shadow-[18px_18px_0 #111] rounded-[2rem]"></video>`;
         }
         modalCaption.innerText = caption;
         modal.classList.remove('hidden');
@@ -368,7 +342,6 @@
         });
     }
 
-    // Scroll Staggered Items
     gsap.utils.toArray('.staggered-item, .reveal-img').forEach(item => {
         gsap.from(item, {
             scrollTrigger: {
@@ -376,9 +349,9 @@
                 start: "top 90%",
                 toggleActions: "play none none reverse"
             },
-            y: 80,
+            y: 60,
             opacity: 0,
-            duration: 1.2,
+            duration: 1,
             ease: "power3.out"
         });
     });
