@@ -12,6 +12,8 @@ def about(request):
         "featured_projects": featured_projects
     })
 
+def contact(request):
+    return render(request, "home/contact.html")
 
 def projects(request):
     created_projects = Project.objects.select_related("category").all()
