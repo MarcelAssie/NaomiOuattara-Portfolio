@@ -8,8 +8,8 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 from projects_manager.models import Project, Category
 
 
-CV_FILENAME = "Ouattara_Naomi_Curriculum Vitae_ Alternance  - CDD-CDI pdf.pdf"
-CV_DOWNLOAD_NAME = "Ouattara_Naomi_Curriculum Vitae_ Alternance  - CDD-CDI pdf.pdf"
+CV_FILENAME = "cv.pdf"
+CV_DOWNLOAD_NAME = "Ouattara_Naomi_Curriculum Vitae_ Alternance  - CDD-CDI.pdf"
 CV_PATH = Path(settings.BASE_DIR) / "static" / "assets" / "docs" / CV_FILENAME
 
 
