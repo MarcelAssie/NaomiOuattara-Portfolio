@@ -75,6 +75,7 @@
         nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:.6rem 0.8rem;gap:1rem;background:rgba(247,242,232,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(13,13,13,0.08);box-shadow:0 8px 28px rgba(0,0,0,0.05);transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,backdrop-filter .25s ease}
         nav.home-top{background:transparent;backdrop-filter:blur(0);border-bottom-color:transparent;box-shadow:none}
         .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.15em;color:#111;text-decoration:none;opacity:1;pointer-events:auto;transition:opacity .25s ease,color .25s ease}
+        .logo-dot{display:inline-block;width:.42em;height:.42em;margin-left:.08em;border-radius:999px;background:#FF4D2E;vertical-align:-.03em}
         nav.home-top .nav-logo{opacity:0;pointer-events:none}
         .nav-links{display:flex;gap:1rem;list-style:none;align-items:center}
         .nav-links a{position:relative;display:inline-flex;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:#111;text-decoration:none;opacity:.86;transition:opacity .2s,color .25s ease}
@@ -119,7 +120,7 @@
 
     <nav class="fixed top-0 left-0 w-full z-50">
         <div class="max-w-screen-2xl mx-auto w-full px-5 md:px-8 py-3 flex items-center justify-between">
-            <a href="{% url 'welcome' %}" class="font-display font-extrabold text-lg md:text-2xl tracking-tight nav-logo">NAOMI<span class="text-coral">●</span></a>
+            <a href="{% url 'welcome' %}" class="font-display font-extrabold text-lg md:text-2xl tracking-tight nav-logo">NAOMI<span class="logo-dot"></span></a>
 
             <ul class="nav-links hidden md:flex items-center gap-3 text-xs uppercase tracking-[0.12em] font-semibold">
                 <li><a class="" data-nav="about" href="{% url 'about' %}">À propos</a></li>
