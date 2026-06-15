@@ -240,19 +240,19 @@
 </section>
 {% endif %}
 
-<div id="galleryModal" class="fixed inset-0 z-[1000] hidden flex items-center justify-center p-6 md:p-12 opacity-0">
+<div id="galleryModal" class="fixed inset-0 z-[5000] hidden flex items-center justify-center p-5 sm:p-8 md:p-10 opacity-0">
     <div class="absolute inset-0" onclick="closeGalleryModal()"></div>
 
     <button onclick="closeGalleryModal()"
-            class="close-btn absolute top-8 right-8 md:top-12 md:right-12 text-paper rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center z-[1100] cursor-pointer shadow-[8px_8px_0 #111]">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4">
+            class="close-btn absolute top-5 right-5 md:top-7 md:right-7 text-paper rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center z-[5100] cursor-pointer shadow-[6px_6px_0 #111]">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4">
             <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
     </button>
 
-    <div class="relative z-[1001] w-full h-full flex flex-col items-center justify-center gap-8">
-        <div id="modalInner" class="max-w-full md:max-w-7xl max-h-[80vh] w-full flex items-center justify-center pointer-events-none"></div>
-        <div class="bg-paper border-2 border-ink px-8 py-4 rounded-full shadow-[8px_8px_0 #7AE7FF]">
+    <div class="relative z-[5001] w-full h-full flex flex-col items-center justify-center gap-6 pt-8">
+        <div id="modalInner" class="max-w-full max-h-[74vh] w-full flex items-center justify-center pointer-events-none"></div>
+        <div class="bg-paper border-2 border-ink px-7 py-3 rounded-full shadow-[6px_6px_0 #7AE7FF]">
             <p id="modalCaptionText" class="font-display font-bold uppercase text-xs md:text-sm tracking-[0.2em] text-ink text-center"></p>
         </div>
     </div>
@@ -316,16 +316,18 @@
     const modal = document.getElementById('galleryModal');
     const modalInner = document.getElementById('modalInner');
     const modalCaption = document.getElementById('modalCaptionText');
+    const siteNav = document.querySelector('nav');
 
     function openGalleryModal(src, type, caption) {
         modalInner.innerHTML = "";
         if (type === 'image' || (!src.includes(".mp4") && !src.includes(".webm"))) {
-            modalInner.innerHTML = `<img src="${src}" class="max-h-[80vh] max-w-full object-contain border-4 border-ink shadow-[18px_18px_0 #111] rounded-[2rem]">`;
+            modalInner.innerHTML = `<img src="${src}" class="max-h-[74vh] max-w-[92vw] object-contain border-4 border-ink shadow-[14px_14px_0 #111] rounded-[1.5rem]">`;
         } else {
-            modalInner.innerHTML = `<video src="${src}" controls autoplay class="max-h-[80vh] max-w-full border-4 border-ink shadow-[18px_18px_0 #111] rounded-[2rem]"></video>`;
+            modalInner.innerHTML = `<video src="${src}" controls autoplay class="max-h-[74vh] max-w-[92vw] border-4 border-ink shadow-[14px_14px_0 #111] rounded-[1.5rem]"></video>`;
         }
         modalCaption.innerText = caption;
         modal.classList.remove('hidden');
+        if (siteNav) siteNav.style.display = 'none';
         gsap.to(modal, { opacity: 1, duration: 0.4 });
         document.body.style.overflow = 'hidden';
     }
@@ -337,6 +339,7 @@
             onComplete: () => {
                 modal.classList.add('hidden');
                 modalInner.innerHTML = "";
+                if (siteNav) siteNav.style.display = '';
                 document.body.style.overflow = '';
             }
         });
