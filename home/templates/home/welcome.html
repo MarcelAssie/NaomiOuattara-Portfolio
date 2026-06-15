@@ -11,7 +11,7 @@
 
     nav.home-top .nav-links a,
     nav.home-top #mobileNavToggle {
-        color: #F7F2E8;
+        color: #111111;
     }
 
     nav.home-top .nav-links a::after {
@@ -21,51 +21,38 @@
 
     nav.home-top .nav-links a:hover,
     nav.home-top .nav-links a.active {
-        color: #F7F2E8;
+        color: #111111;
     }
 </style>
 
-<section class="relative min-h-screen overflow-hidden bg-violet px-6 md:px-10 pt-28 pb-16 text-paper">
+<section class="relative min-h-screen overflow-hidden px-6 md:px-10 pt-28 pb-16 text-ink">
 
-    <div class="relative z-20 flex min-h-[72vh] items-center">
+    <div class="relative z-20 flex min-h-[62vh] flex-col items-start justify-center gap-8">
         <div class="reveal max-w-5xl">
 
             <h1 class="font-display max-w-4xl text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.4rem] font-medium leading-[1.08]">
-                Bonjour, je suis <span class="font-bold text-[#FFD600]">Naomi Ouattara</span>. Designer graphique spécialisée en identité visuelle et branding.
+                Designer graphique spécialisée en <span class="font-bold text-violet">identité visuelle</span> et <span class="font-bold text-[#4CAFC0]">branding</span>.
             </h1>
 
-            <p class="mt-7 max-w-2xl text-lg sm:text-xl leading-[1.6] text-paper/82">
+            <p class="mt-7 max-w-2xl text-lg sm:text-xl leading-[1.6] text-muted">
                 Je crée des univers de marque qui allient stratégie, émotion et esthétisme.
             </p>
 
         </div>
+
+        <a href="{% url 'contact' %}" class="inline-flex bg-ink text-paper rounded-full px-6 py-4 text-xs uppercase tracking-[0.16em] font-bold hover:bg-coral hover:text-ink border-2 border-ink transition-colors">
+            Me contacter →
+        </a>
     </div>
 
-    <div class="pointer-events-none absolute right-[-13rem] bottom-[-14rem] hidden h-[34rem] w-[40rem] lg:block">
+    <div class="pointer-events-none absolute right-[-12rem] bottom-[40rem] hidden h-[34rem] w-[40rem] lg:block">
         <img src="{% static 'assets/images/Crayons site web -01.svg' %}"
              alt=""
-             class="absolute right-0 bottom-0 w-[38rem] rotate-[65deg] opacity-[0.15] drop-shadow-[0_18px_30px_rgba(17,17,17,0.01)]">
+             class="absolute right-0 bottom-0 w-[39rem] rotate-[65deg] opacity-[0.1] drop-shadow-[0_18px_30px_rgba(17,17,17,0.06)]"
+             style="filter: brightness(0) saturate(100%) invert(40%) sepia(71%) saturate(2237%) hue-rotate(231deg) brightness(101%) contrast(101%);">
     </div>
 
-</section>
 
-<section class="px-6 md:px-10 py-14 md:py-16 overflow-hidden">
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
-
-        <div class="lg:col-span-7">
-
-            <h2 class="reveal font-display text-[16vw] sm:text-[5.6vw] md:text-[5.4vw] lg:text-[4.8vw] font-extrabold leading-[0.86] tracking-[-0.07em] uppercase">
-                Penser<br>
-                <span class="text-coral">l’image</span><br>
-                autrement.
-            </h2>
-        </div>
-    </div>
-
-</section>
-
-<section class="px-6 md:px-10 py-12 md:py-14">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <a href="{% url 'projects' %}" class="reveal group border-2 border-ink rounded-4xl p-6 sm:p-8 bg-paper hover:bg-coral transition-all shadow-[6px_6px_0_#111] hover:shadow-[10px_10px_0_#111]">
             <span class="text-sm font-bold">01</span>
@@ -86,6 +73,25 @@
         </a>
 
     </div>
+
+
+
+</section>
+
+<section class="px-6 md:px-10 py-14 md:py-16 overflow-hidden">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+
+        <div class="lg:col-span-7">
+
+            <h2 class="reveal font-display text-[16vw] sm:text-[5.6vw] md:text-[5.4vw] lg:text-[4.8vw] font-extrabold leading-[0.86] tracking-[-0.07em] uppercase">
+                Penser<br>
+                <span class="text-coral">l’image</span><br>
+                autrement.
+            </h2>
+        </div>
+    </div>
+
 </section>
 
 <section class="border-y-2 border-ink bg-ink text-paper overflow-hidden py-3">
